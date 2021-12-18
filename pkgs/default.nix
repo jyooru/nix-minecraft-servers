@@ -1,7 +1,7 @@
 { callPackage, lib, javaPackages }:
 # if you add more versions make sure to add to all-packages.nix
 let
-  versions = lib.importJSON ./versions.json;
+  versions = lib.importJSON ./vanilla.json;
 
   latestVersion = lib.last (builtins.sort lib.versionOlder (builtins.attrNames versions));
   escapeVersion = builtins.replaceStrings [ "." ] [ "_" ];
@@ -10,8 +10,9 @@ let
 
   packages = lib.mapAttrs'
     (version: value: {
-      name = "minecraft-server_${escapeVersion version}";
+      name = "vanilla_${escapeVersion version}";
       value = callPackage ./derivation.nix {
+        name = "vanilla";
         inherit (value) version url sha1;
         jre_headless = getJavaVersion (if value.javaVersion == null then 8 else value.javaVersion); # versions <= 1.6 will default to 8
       };
@@ -19,5 +20,5 @@ let
     versions;
 in
 packages // {
-  minecraft-server = builtins.getAttr "minecraft-server_${escapeVersion latestVersion}" packages;
+  vanilla = builtins.getAttr "vanilla_${escapeVersion latestVersion}" packages;
 }

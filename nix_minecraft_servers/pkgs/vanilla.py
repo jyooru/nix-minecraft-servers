@@ -1,6 +1,3 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i python3 -p python3Packages.requests python3Packages.dataclasses-json
-
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -149,7 +146,11 @@ def generate() -> Dict[str, Dict[str, str]]:
     return servers
 
 
-if __name__ == "__main__":
-    with open("versions.json", "w") as file:
+def main():
+    with open("pkgs/vanilla.json", "w") as file:
         json.dump(generate(), file, indent=2)
         file.write("\n")
+
+
+if __name__ == "__main__":
+    main()

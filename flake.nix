@@ -11,10 +11,12 @@
       (system:
         let pkgs = import nixpkgs { inherit system; }; in
         with pkgs;
-        rec      {
+        rec {
           devShell = pkgs.mkShell {
             packages = [ python3 ] ++ (with python3Packages; [ requests dataclasses-json ]);
           };
+
+          packages = import ./pkgs { inherit (pkgs) callPackage lib javaPackages; };
         }
       );
 }
