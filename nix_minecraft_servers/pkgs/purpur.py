@@ -33,7 +33,6 @@ class Build(DataClassJsonMixin):
             "sha256": get_sha256(self.get_url()),
             "version": self.version,
             "build": self.build,
-            "javaVersion": None,
         }
 
 

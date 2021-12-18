@@ -1,21 +1,19 @@
-{ lib, stdenv, fetchurl, nixosTests, jre_headless, name, version, url, sha1 }:
+{ lib, stdenv, fetchurl, nixosTests, jre_headless, version, build, url, sha256 }:
 stdenv.mkDerivation {
-  pname = "minecraft-server-${name}";
-  inherit version;
+  pname = "purpur";
+  version = "${version}-${build}";
 
-  src = fetchurl { inherit url sha1; };
+  src = fetchurl { inherit url sha256; };
 
   preferLocalBuild = true;
 
   installPhase = ''
     mkdir -p $out/bin $out/lib/minecraft
     cp -v $src $out/lib/minecraft/server.jar
-
     cat > $out/bin/minecraft-server << EOF
     #!/bin/sh
     exec ${jre_headless}/bin/java \$@ -jar $out/lib/minecraft/server.jar nogui
     EOF
-
     chmod +x $out/bin/minecraft-server
   '';
 
@@ -23,14 +21,13 @@ stdenv.mkDerivation {
 
   passthru = {
     tests = { inherit (nixosTests) minecraft-server; };
-    updateScript = ./update.py;
   };
 
   meta = with lib; {
-    description = "Minecraft Server";
-    homepage = "https://minecraft.net";
-    license = licenses.unfreeRedistributable;
+    description = "Purpur is a drop-in replacement for Paper servers designed for configurability, new fun and exciting gameplay features, and performance built on top of Airplane.";
+    homepage = "https://purpurmc.org/";
+    license = licenses.mit;
     platforms = platforms.unix;
-    maintainers = with maintainers; [ thoughtpolice tomberek costrouc jyooru ];
+    maintainers = with maintainers; [ jyooru ];
   };
 }
