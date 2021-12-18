@@ -1,0 +1,22 @@
+name: "ci"
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.4.0
+      - uses: cachix/install-nix-action@v16
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Print nixpkgs version
+        run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
+      - name: Check flake evaluates
+        run: NIXPKGS_ALLOW_UNFREE=1 nix flake check --impure # --impure: https://github.com/NixOS/nix/issues/4188
+
