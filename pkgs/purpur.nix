@@ -1,7 +1,7 @@
 { lib, stdenv, fetchurl, nixosTests, jre_headless, version, build, url, sha256 }:
 stdenv.mkDerivation {
   pname = "purpur";
-  version = "${version}-${build}";
+  version = "${version}-${toString build}";
 
   src = fetchurl { inherit url sha256; };
 
