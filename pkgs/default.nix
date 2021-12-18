@@ -6,6 +6,22 @@ let
 
   getJavaVersion = v: (builtins.getAttr "openjdk${toString v}" javaPackages.compiler).headless;
 
+
+  paper =
+    let
+      versions = lib.importJSON ./paper.json;
+      packages = lib.mapAttrs'
+        (version: value: {
+          name = "paper_${escapeVersion version}";
+          value = callPackage ./paper.nix {
+            inherit (value) version build url sha256;
+          };
+        })
+        versions;
+    in
+    packages // { paper = builtins.getAttr "paper_${escapeVersion (latestVersion (lib.importJSON ./paper.json))}" packages; };
+
+
   purpur =
     let
       versions = lib.importJSON ./purpur.json;
@@ -36,4 +52,4 @@ let
     in
     packages // { vanilla = builtins.getAttr "vanilla_${escapeVersion (latestVersion (lib.importJSON ./vanilla.json))}" packages; };
 in
-purpur // vanilla
+paper // purpur // vanilla

@@ -7,12 +7,22 @@ import requests
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
+import json
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Union
+
+import requests
+from dataclasses_json import DataClassJsonMixin, LetterCase, config
+from marshmallow import fields
+from nix_minecraft_servers.pkgs.common import get_latest_major_versions
 
 
 @dataclass
 class Download(DataClassJsonMixin):
     name: str
     sha256: str
+
 
 @dataclass
 class Build(DataClassJsonMixin):
@@ -23,8 +33,16 @@ class Build(DataClassJsonMixin):
     project_id: str
     project_name: str
     promoted: bool
-    time:str
+    time: str
     version: str
+
+    def output_for_nix(self) -> Dict[str, Union[str, int]]:
+        return {
+            "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/application",
+            "sha256": self.downloads["application"].sha256,
+            "build": self.build,
+            "version": self.version
+        }
 
 
 @dataclass
@@ -60,3 +78,31 @@ class Project(DataClassJsonMixin):
         )
         response.raise_for_status()
         return Version.from_dict(response.json())
+
+
+def generate() -> Dict[str, Dict[str, str]]:
+    project = Project.get("paper")
+    major_versions_str = get_latest_major_versions(project.versions)
+    major_versions_Version = {
+        major_version: project.get_version(version)
+        for major_version, version in major_versions_str.items()
+    }
+    major_versions_Build = {
+        major_version: version.get_build(max(version.builds))
+        for major_version, version in major_versions_Version.items()
+    }
+    major_versions_dict = {
+        major_version: build.output_for_nix()
+        for major_version, build in major_versions_Build.items()
+    }
+    return major_versions_dict
+
+
+def main():
+    with open("pkgs/paper.json", "w") as file:
+        json.dump(generate(), file, indent=2)
+        file.write("\n")
+
+
+if __name__ == "__main__":
+    main()
