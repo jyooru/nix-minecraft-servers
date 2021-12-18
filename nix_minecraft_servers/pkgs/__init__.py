@@ -1,4 +1,5 @@
-import vanilla
+from . import purpur
+from . import vanilla
 
 
-pkgs = {"vanilla": vanilla}
+pkgs = {"purpur": purpur, "vanilla": vanilla}

@@ -142,6 +142,7 @@ def generate() -> Dict[str, Dict[str, str]]:
 
     for version, server in servers.items():
         server["version"] = latest_major_releases[version].id
+        server["build"] = None
         server["javaVersion"] = latest_major_releases[version].get_java_version()
     return servers
 
