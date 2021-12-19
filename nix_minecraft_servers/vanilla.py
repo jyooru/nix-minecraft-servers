@@ -32,7 +32,7 @@ class Version(DataClassJsonMixin):
             encoder=datetime.isoformat,
             decoder=datetime.fromisoformat,
             mm_field=fields.DateTime(format="iso"),
-            letter_case=LetterCase.CAMEL,
+            letter_case=LetterCase.CAMEL, # type: ignore
         )
     )
 
