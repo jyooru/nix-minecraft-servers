@@ -90,7 +90,9 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 def main() -> None:
     with open("pkgs/purpur.json", "w") as file:
-        json.dump(generate(), file, indent=2)
+        data = generate()
+        log.info(f"[b]Found {len(data.keys())} versions for Purpur")
+        json.dump(data, file, indent=2)
         file.write("\n")
 
 

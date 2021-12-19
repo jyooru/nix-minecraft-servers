@@ -52,7 +52,7 @@ def get(url: str, should_log: bool = True) -> requests.Response:
     response = requests.get(url)
     response.raise_for_status()
     if should_log:
-        log.info(f"GET {url} {response.status_code}")
+        log.debug(f"GET {url} {response.status_code}")
     return response
 
 
@@ -64,5 +64,5 @@ def get_sha256(url: str) -> str:
     with console.status(Text.from_markup(f"Manually hashing file [u bright_blue]{url}")):
         response = get(url, should_log=False)
         hash = sha256(response.content).hexdigest()
-    log.info(f"GET {url} {response.status_code} [bold magenta]{hash}")
+    log.debug(f"GET {url} {response.status_code} [bold magenta]{hash}")
     return hash

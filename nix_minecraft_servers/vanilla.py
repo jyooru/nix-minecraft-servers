@@ -152,7 +152,9 @@ def generate() -> Dict[str, Dict[str, str]]:
 
 def main() -> None:
     with open("pkgs/vanilla.json", "w") as file:
-        json.dump(generate(), file, indent=2)
+        data = generate()
+        log.info(f"[b]Found {len(data.keys())} versions for Vanilla")
+        json.dump(data, file, indent=2)
         file.write("\n")
 
 
