@@ -56,6 +56,7 @@ class Project(DataClassJsonMixin):
     project: str
     versions: List[str]
 
+    @staticmethod
     def get(project: str) -> "Project":
         response = requests.get(f"https://api.purpurmc.org/v2/{project}")
         response.raise_for_status()

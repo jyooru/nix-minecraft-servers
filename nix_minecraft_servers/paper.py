@@ -57,6 +57,7 @@ class Project(DataClassJsonMixin):
     version_groups: List[str]
     versions: List[str]
 
+    @staticmethod
     def get(project_id: str) -> "Project":
         response = requests.get(f"https://papermc.io/api/v2/projects/{project_id}")
         response.raise_for_status()
