@@ -1,4 +1,4 @@
-from .pkgs import pkgs
+from . import pkgs
 
 
 def main() -> None:
