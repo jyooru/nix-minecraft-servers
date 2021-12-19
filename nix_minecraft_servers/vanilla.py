@@ -8,6 +8,8 @@ import requests
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
+from nix_minecraft_servers.common import get_json
+
 
 log = getLogger(__name__)
 
@@ -42,9 +44,7 @@ class Version(DataClassJsonMixin):
 
     def get_manifest(self) -> Any:
         """Return the version's manifest."""
-        response = requests.get(self.url)
-        response.raise_for_status()
-        return response.json()
+        return get_json(self.url)
 
     def get_downloads(self) -> Dict[str, Download]:
         """
@@ -77,12 +77,12 @@ class Version(DataClassJsonMixin):
 
 def get_versions() -> List[Version]:
     """Return a list of Version objects for all available versions."""
-    response = requests.get(
-        "https://launchermeta.mojang.com/mc/game/version_manifest.json"
-    )
-    response.raise_for_status()
-    data = response.json()
-    return [Version.from_dict(version) for version in data["versions"]]
+    return [
+        Version.from_dict(version)
+        for version in get_json(
+            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
+        )["versions"]
+    ]
 
 
 def get_major_release(version_id: str) -> str:
