@@ -11,7 +11,7 @@
       (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          requirements = with pkgs; [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort mypy requests types-requests ]);
+          requirements = with pkgs; [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort mypy requests rich types-requests ]);
         in
         with pkgs;
         rec {

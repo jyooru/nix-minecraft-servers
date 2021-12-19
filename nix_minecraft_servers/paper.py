@@ -1,11 +1,15 @@
 import json
 from dataclasses import dataclass
+from logging import getLogger
 from typing import Dict, List, Union
 
 import requests
 from dataclasses_json import DataClassJsonMixin
 
-from .common import get_latest_major_versions
+from .common import get_json, get_latest_major_versions
+
+
+log = getLogger(__name__)
 
 
 @dataclass
@@ -43,11 +47,11 @@ class Version(DataClassJsonMixin):
     version: str
 
     def get_build(self, build: int) -> Build:
-        response = requests.get(
-            f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"
+        return Build.from_dict(
+            get_json(
+                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"
+            )
         )
-        response.raise_for_status()
-        return Build.from_dict(response.json())
 
 
 @dataclass
@@ -59,16 +63,16 @@ class Project(DataClassJsonMixin):
 
     @staticmethod
     def get(project_id: str) -> "Project":
-        response = requests.get(f"https://papermc.io/api/v2/projects/{project_id}")
-        response.raise_for_status()
-        return Project.from_dict(response.json())
+        return Project.from_dict(
+            get_json(f"https://papermc.io/api/v2/projects/{project_id}")
+        )
 
     def get_version(self, version: str) -> Version:
-        response = requests.get(
-            f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{version}"
+        return Version.from_dict(
+            get_json(
+                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{version}"
+            )
         )
-        response.raise_for_status()
-        return Version.from_dict(response.json())
 
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
@@ -91,7 +95,9 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 def main() -> None:
     with open("pkgs/paper.json", "w") as file:
-        json.dump(generate(), file, indent=2)
+        data = generate()
+        log.info(f"[b]Found {len(data.keys())} versions for Paper")
+        json.dump(data, file, indent=2)
         file.write("\n")
 
 

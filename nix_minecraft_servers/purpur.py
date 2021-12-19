@@ -1,11 +1,15 @@
 import json
 from dataclasses import dataclass
+from logging import getLogger
 from typing import Dict, List, Union
 
 import requests
 from dataclasses_json import DataClassJsonMixin
 
-from nix_minecraft_servers.pkgs.common import get_latest_major_versions, get_sha256
+from .common import get_json, get_latest_major_versions, get_sha256
+
+
+log = getLogger(__name__)
 
 
 @dataclass
@@ -44,11 +48,11 @@ class Version(DataClassJsonMixin):
     version: str
 
     def get_build(self, build: str) -> Build:
-        response = requests.get(
-            f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{build}"
+        return Build.from_dict(
+            get_json(
+                f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{build}"
+            )
         )
-        response.raise_for_status()
-        return Build.from_dict(response.json())
 
 
 @dataclass
@@ -58,14 +62,12 @@ class Project(DataClassJsonMixin):
 
     @staticmethod
     def get(project: str) -> "Project":
-        response = requests.get(f"https://api.purpurmc.org/v2/{project}")
-        response.raise_for_status()
-        return Project.from_dict(response.json())
+        return Project.from_dict(get_json(f"https://api.purpurmc.org/v2/{project}"))
 
     def get_version(self, version: str) -> Version:
-        response = requests.get(f"https://api.purpurmc.org/v2/{self.project}/{version}")
-        response.raise_for_status()
-        return Version.from_dict(response.json())
+        return Version.from_dict(
+            get_json(f"https://api.purpurmc.org/v2/{self.project}/{version}")
+        )
 
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
@@ -88,7 +90,9 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 def main() -> None:
     with open("pkgs/purpur.json", "w") as file:
-        json.dump(generate(), file, indent=2)
+        data = generate()
+        log.info(f"[b]Found {len(data.keys())} versions for Purpur")
+        json.dump(data, file, indent=2)
         file.write("\n")
 
 

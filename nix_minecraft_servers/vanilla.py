@@ -1,11 +1,17 @@
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
+from logging import getLogger
 from typing import Any, Dict, List, Optional
 
 import requests
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
+
+from nix_minecraft_servers.common import get_json
+
+
+log = getLogger(__name__)
 
 
 @dataclass
@@ -32,15 +38,13 @@ class Version(DataClassJsonMixin):
             encoder=datetime.isoformat,
             decoder=datetime.fromisoformat,
             mm_field=fields.DateTime(format="iso"),
-            letter_case=LetterCase.CAMEL, # type: ignore
+            letter_case=LetterCase.CAMEL,  # type: ignore
         )
     )
 
     def get_manifest(self) -> Any:
         """Return the version's manifest."""
-        response = requests.get(self.url)
-        response.raise_for_status()
-        return response.json()
+        return get_json(self.url)
 
     def get_downloads(self) -> Dict[str, Download]:
         """
@@ -73,12 +77,12 @@ class Version(DataClassJsonMixin):
 
 def get_versions() -> List[Version]:
     """Return a list of Version objects for all available versions."""
-    response = requests.get(
-        "https://launchermeta.mojang.com/mc/game/version_manifest.json"
-    )
-    response.raise_for_status()
-    data = response.json()
-    return [Version.from_dict(version) for version in data["versions"]]
+    return [
+        Version.from_dict(version)
+        for version in get_json(
+            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
+        )["versions"]
+    ]
 
 
 def get_major_release(version_id: str) -> str:
@@ -148,7 +152,9 @@ def generate() -> Dict[str, Dict[str, str]]:
 
 def main() -> None:
     with open("pkgs/vanilla.json", "w") as file:
-        json.dump(generate(), file, indent=2)
+        data = generate()
+        log.info(f"[b]Found {len(data.keys())} versions for Vanilla")
+        json.dump(data, file, indent=2)
         file.write("\n")
 
 
