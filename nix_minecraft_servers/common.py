@@ -1,6 +1,7 @@
-from typing import Dict, List
-import requests
 from hashlib import sha256
+from typing import Dict, List
+
+import requests
 
 
 def get_major_release(version: str) -> str:

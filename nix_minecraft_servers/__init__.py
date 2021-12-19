@@ -1,5 +1,3 @@
-from . import purpur
-from . import vanilla
-
+from . import purpur, vanilla
 
 pkgs = {"purpur": purpur, "vanilla": vanilla}

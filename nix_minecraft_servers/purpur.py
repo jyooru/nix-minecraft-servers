@@ -1,16 +1,12 @@
 import json
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
+from dataclasses import dataclass
+from typing import Dict, List, Union
 
 import requests
-from dataclasses_json import DataClassJsonMixin, LetterCase, config
-from marshmallow import fields
-from nix_minecraft_servers.pkgs.common import (
-    get_latest_major_versions,
-    get_sha256,
-    group_major_versions,
-)
+from dataclasses_json import DataClassJsonMixin
+
+from nix_minecraft_servers.pkgs.common import (get_latest_major_versions,
+                                               get_sha256)
 
 
 @dataclass
