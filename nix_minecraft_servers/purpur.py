@@ -85,7 +85,7 @@ def generate() -> Dict[str, Dict[str, str]]:
     return major_versions_dict
 
 
-def main():
+def main() -> None:
     with open("pkgs/purpur.json", "w") as file:
         json.dump(generate(), file, indent=2)
         file.write("\n")
