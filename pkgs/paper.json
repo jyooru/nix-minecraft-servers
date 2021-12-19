@@ -29,12 +29,6 @@
     "build": 1619,
     "version": "1.12.2"
   },
-  "1.13-pre7": {
-    "url": "https://papermc.io/api/v2/projects/paper/versions/1.13-pre7/builds/12/downloads/application",
-    "sha256": "8c2c4dbc3a2842be8454b4c4b306266bc622e2db681233558fedf8230800940c",
-    "build": 12,
-    "version": "1.13-pre7"
-  },
   "1.13": {
     "url": "https://papermc.io/api/v2/projects/paper/versions/1.13.2/builds/656/downloads/application",
     "sha256": "34e9cb719b016401abe5a902792ae37a46b468183273485aad8d9fb3b690fd18",

@@ -77,7 +77,13 @@ class Project(DataClassJsonMixin):
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
     project = Project.get("paper")
-    major_versions_str = get_latest_major_versions(project.versions)
+    major_versions_str = get_latest_major_versions(
+        [
+            version
+            for version in project.versions
+            if not any(["pre" in v for v in version.split("-")])
+        ]
+    )
     major_versions_Version = {
         major_version: project.get_version(version)
         for major_version, version in major_versions_str.items()
