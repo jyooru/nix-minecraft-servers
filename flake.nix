@@ -11,18 +11,22 @@
       (system:
         let
           pkgs = import nixpkgs { inherit system; };
-          requirements = with pkgs; [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort mypy requests rich types-requests ]);
+          requirements = with pkgs; [
+            (python3.withPackages (ps: with ps; [ black dataclasses-json flake8 isort mypy requests rich types-requests ]))
+          ];
         in
         with pkgs;
         rec {
           apps = {
-            run = writeShellApplication { runtimeInputs = requirements; name = "nix-minecraft-server-run"; text = "python3 -m nix_minecraft_servers"; };
+            nix-minecraft-server = writeShellApplication {
+              runtimeInputs = requirements;
+              name = "nix-minecraft-server";
+              text = "PYTHONPATH='${toString ./.}' python3 -m nix_minecraft_servers";
+            };
           };
-          defaultApp = apps.run;
+          defaultApp = apps.nix-minecraft-server;
 
-          devShell = pkgs.mkShell {
-            packages = requirements;
-          };
+          devShell = pkgs.mkShell { packages = requirements; };
 
           packages = import ./pkgs { inherit (pkgs) callPackage lib javaPackages; };
         }
