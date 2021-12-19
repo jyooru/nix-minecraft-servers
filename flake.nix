@@ -13,7 +13,7 @@
         with pkgs;
         rec {
           devShell = pkgs.mkShell {
-            packages = [ python3 ] ++ (with python3Packages; [ requests dataclasses-json ]);
+            packages = [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort requests mypy ]);
           };
 
           packages = import ./pkgs { inherit (pkgs) callPackage lib javaPackages; };
