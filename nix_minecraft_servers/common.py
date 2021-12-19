@@ -1,7 +1,11 @@
 from hashlib import sha256
+from logging import getLogger
 from typing import Dict, List
 
 import requests
+
+
+log = getLogger(__name__)
 
 
 def get_major_release(version: str) -> str:

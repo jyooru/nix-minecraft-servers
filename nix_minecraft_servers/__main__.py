@@ -1,4 +1,9 @@
+from logging import getLogger
+
 from . import pkgs
+
+
+log = getLogger(__name__)
 
 
 def main() -> None:

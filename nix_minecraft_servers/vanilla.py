@@ -1,11 +1,15 @@
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
+from logging import getLogger
 from typing import Any, Dict, List, Optional
 
 import requests
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
+
+
+log = getLogger(__name__)
 
 
 @dataclass
@@ -32,7 +36,7 @@ class Version(DataClassJsonMixin):
             encoder=datetime.isoformat,
             decoder=datetime.fromisoformat,
             mm_field=fields.DateTime(format="iso"),
-            letter_case=LetterCase.CAMEL, # type: ignore
+            letter_case=LetterCase.CAMEL,  # type: ignore
         )
     )
 
