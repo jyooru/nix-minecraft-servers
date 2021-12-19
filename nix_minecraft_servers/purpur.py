@@ -5,8 +5,7 @@ from typing import Dict, List, Union
 import requests
 from dataclasses_json import DataClassJsonMixin
 
-from nix_minecraft_servers.pkgs.common import (get_latest_major_versions,
-                                               get_sha256)
+from nix_minecraft_servers.pkgs.common import get_latest_major_versions, get_sha256
 
 
 @dataclass
