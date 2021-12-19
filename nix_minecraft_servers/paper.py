@@ -41,7 +41,7 @@ class Build(DataClassJsonMixin):
             "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/application",
             "sha256": self.downloads["application"].sha256,
             "build": self.build,
-            "version": self.version
+            "version": self.version,
         }
 
 
