@@ -71,7 +71,7 @@ class Project(DataClassJsonMixin):
         return Version.from_dict(response.json())
 
 
-def generate() -> Dict[str, Dict[str, str]]:
+def generate() -> Dict[str, Dict[str, Union[str, int]]]:
     project = Project.get("paper")
     major_versions_str = get_latest_major_versions(project.versions)
     major_versions_Version = {
