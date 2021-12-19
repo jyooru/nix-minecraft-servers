@@ -3,7 +3,7 @@ import logging
 from rich.console import Console
 from rich.logging import RichHandler
 
-from . import paper, purpur, vanilla
+from . import paper, purpur, vanilla, velocity
 
 
 console = Console()
@@ -16,4 +16,4 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-pkgs = {"paper":paper, "purpur": purpur, "vanilla": vanilla}
+pkgs = {"paper": paper, "purpur": purpur, "vanilla": vanilla, "velocity": velocity}
