@@ -1,21 +1,11 @@
 import json
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Dict, List, Union
 
 import requests
-from dataclasses_json import DataClassJsonMixin, LetterCase, config
-from marshmallow import fields
+from dataclasses_json import DataClassJsonMixin
 
-import json
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
-
-import requests
-from dataclasses_json import DataClassJsonMixin, LetterCase, config
-from marshmallow import fields
-from nix_minecraft_servers.pkgs.common import get_latest_major_versions
+from .common import get_latest_major_versions
 
 
 @dataclass
@@ -41,7 +31,7 @@ class Build(DataClassJsonMixin):
             "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/application",
             "sha256": self.downloads["application"].sha256,
             "build": self.build,
-            "version": self.version
+            "version": self.version,
         }
 
 
@@ -67,6 +57,7 @@ class Project(DataClassJsonMixin):
     version_groups: List[str]
     versions: List[str]
 
+    @staticmethod
     def get(project_id: str) -> "Project":
         response = requests.get(f"https://papermc.io/api/v2/projects/{project_id}")
         response.raise_for_status()
@@ -80,7 +71,7 @@ class Project(DataClassJsonMixin):
         return Version.from_dict(response.json())
 
 
-def generate() -> Dict[str, Dict[str, str]]:
+def generate() -> Dict[str, Dict[str, Union[str, int]]]:
     project = Project.get("paper")
     major_versions_str = get_latest_major_versions(project.versions)
     major_versions_Version = {
@@ -98,7 +89,7 @@ def generate() -> Dict[str, Dict[str, str]]:
     return major_versions_dict
 
 
-def main():
+def main() -> None:
     with open("pkgs/paper.json", "w") as file:
         json.dump(generate(), file, indent=2)
         file.write("\n")

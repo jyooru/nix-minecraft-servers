@@ -32,7 +32,7 @@ class Version(DataClassJsonMixin):
             encoder=datetime.isoformat,
             decoder=datetime.fromisoformat,
             mm_field=fields.DateTime(format="iso"),
-            letter_case=LetterCase.CAMEL,
+            letter_case=LetterCase.CAMEL, # type: ignore
         )
     )
 
@@ -146,7 +146,7 @@ def generate() -> Dict[str, Dict[str, str]]:
     return servers
 
 
-def main():
+def main() -> None:
     with open("pkgs/vanilla.json", "w") as file:
         json.dump(generate(), file, indent=2)
         file.write("\n")
