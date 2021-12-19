@@ -1,0 +1,50 @@
+{
+  "1.11": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.11/builds/108/downloads/application",
+    "sha256": "a660a20dddfe0c3d86a011789ccda6d7401bd67a87c6e4f9dd3b13f0fa6afc2f",
+    "build": 108,
+    "version": "1.11"
+  },
+  "1.12": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.12/builds/185/downloads/application",
+    "sha256": "6032f30e9f57ce943d40e130b6112a2ee2fc8a9264fb1547db59443155684ef8",
+    "build": 185,
+    "version": "1.12"
+  },
+  "1.13": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.13/builds/276/downloads/application",
+    "sha256": "978b0593d87676f52ae932fa69c1db52bc1ff1304eda12ab5e59f2bd982fcb10",
+    "build": 276,
+    "version": "1.13"
+  },
+  "1.14": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.14/builds/301/downloads/application",
+    "sha256": "1915a52f45281630238b4b6e20b29e60539a177a63d694c6bc8b61f7a57ce3a1",
+    "build": 301,
+    "version": "1.14"
+  },
+  "1.15": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.15/builds/350/downloads/application",
+    "sha256": "4f5dfd27f9041a3a4a0a35745f168b674f48ef4019886d2acfd56d014fcb5448",
+    "build": 350,
+    "version": "1.15"
+  },
+  "1.16": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.16/builds/431/downloads/application",
+    "sha256": "1b693eccdaba55236e93121c3e194f2ef5e55584a798156a17aed4e48c574879",
+    "build": 431,
+    "version": "1.16"
+  },
+  "1.17": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.17/builds/454/downloads/application",
+    "sha256": "abc6e7d456c80b9b602ad5c3f7045100f668e1179c1b9eb1fbd521775082b2ef",
+    "build": 454,
+    "version": "1.17"
+  },
+  "1.18": {
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.18/builds/472/downloads/application",
+    "sha256": "0acc4586a019d6e209708302fea75d156fc1d3520b680d228ec723d8496a413a",
+    "build": 472,
+    "version": "1.18"
+  }
+}
