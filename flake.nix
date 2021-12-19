@@ -9,11 +9,19 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem
       (system:
-        let pkgs = import nixpkgs { inherit system; }; in
+        let
+          pkgs = import nixpkgs { inherit system; };
+          requirements = with pkgs; [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort mypy requests types-requests ]);
+        in
         with pkgs;
         rec {
+          apps = {
+            run = writeShellApplication { runtimeInputs = requirements; name = "nix-minecraft-server-run"; text = "python3 -m nix_minecraft_servers"; };
+          };
+          defaultApp = apps.run;
+
           devShell = pkgs.mkShell {
-            packages = [ python3 ] ++ (with python3Packages; [ black dataclasses-json flake8 isort mypy requests types-requests ]);
+            packages = requirements;
           };
 
           packages = import ./pkgs { inherit (pkgs) callPackage lib javaPackages; };
