@@ -12,7 +12,7 @@
         let
           pkgs = import nixpkgs { inherit system; };
           requirements = with pkgs; [
-            (python3.withPackages (ps: with ps; [ black dataclasses-json flake8 isort mypy requests rich types-requests ]))
+            (python3.withPackages (ps: with ps; [ black dataclasses-json flake8 isort mypy python-jenkins requests rich types-requests ]))
           ];
         in
         with pkgs;
