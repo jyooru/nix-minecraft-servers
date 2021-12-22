@@ -2,7 +2,7 @@ from typing import Dict, List, Union
 from jenkins import Jenkins
 import json
 from logging import getLogger
-
+from .common import get_sha256
 
 log = getLogger(__name__)
 
@@ -15,7 +15,16 @@ def last_successful_build() -> int:
 
 
 def generate() -> Dict[str, Union[int, List[str]]]:
-    return {"latest": {"build": last_successful_build(), "version": "1.17.1"}}
+    build = last_successful_build()
+    url = f"https://ci.tivy.ca/job/Airplane-1.17/{build}/artifact/launcher-airplane.jar"
+    return {
+        "latest": {
+            "build": build,
+            "sha256": get_sha256(url),
+            "url": url,
+            "version": "1.17.1",
+        }
+    }
 
 
 def main() -> None:
