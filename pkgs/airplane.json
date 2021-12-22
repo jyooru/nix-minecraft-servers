@@ -1,0 +1,8 @@
+{
+  "latest": {
+    "build": 112,
+    "sha256": "6a48efc1bbc81db01966106ce18af45336cebdc35066f8ef2490c0aed3000711",
+    "url": "https://ci.tivy.ca/job/Airplane-1.17/112/artifact/launcher-airplane.jar",
+    "version": "1.17.1"
+  }
+}
