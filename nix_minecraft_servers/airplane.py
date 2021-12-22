@@ -1,8 +1,11 @@
-from typing import Dict, List, Union
-from jenkins import Jenkins
 import json
 from logging import getLogger
+from typing import Dict, List, Union
+
+from jenkins import Jenkins
+
 from .common import get_sha256
+
 
 log = getLogger(__name__)
 

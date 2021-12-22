@@ -3,7 +3,6 @@ from logging import getLogger
 from typing import Dict, Union
 
 from .common import get_latest_major_versions
-
 from .paper import Project
 
 

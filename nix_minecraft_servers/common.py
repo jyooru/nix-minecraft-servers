@@ -2,9 +2,9 @@ from hashlib import sha256
 from logging import getLogger
 from typing import Any, Dict, List
 
+import requests
 from rich.console import Console
 from rich.text import Text
-import requests
 
 
 console = Console()
