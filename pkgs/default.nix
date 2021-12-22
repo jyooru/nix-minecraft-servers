@@ -7,6 +7,22 @@ let
   getJavaVersion = v: (builtins.getAttr "openjdk${toString v}" javaPackages.compiler).headless;
 
 
+  airplane =
+    let
+      versions = lib.importJSON ./airplane.json;
+      packages = lib.mapAttrs'
+        (version: value: {
+          name = "airplane_${escapeVersion version}";
+          value = callPackage ./airplane.nix {
+            inherit (value) version build url sha256;
+
+          };
+        })
+        versions;
+    in
+    packages;
+
+
   paper =
     let
       versions = lib.importJSON ./paper.json;
@@ -67,4 +83,4 @@ let
     packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall.json))}" packages; };
 
 in
-paper // purpur // vanilla // waterfall
+airplane // paper // purpur // vanilla // waterfall
