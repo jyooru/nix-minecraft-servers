@@ -51,5 +51,20 @@ let
         versions;
     in
     packages // { vanilla = builtins.getAttr "vanilla_${escapeVersion (latestVersion (lib.importJSON ./vanilla.json))}" packages; };
+
+  waterfall =
+    let
+      versions = lib.importJSON ./waterfall.json;
+      packages = lib.mapAttrs'
+        (version: value: {
+          name = "waterfall_${escapeVersion version}";
+          value = callPackage ./waterfall.nix {
+            inherit (value) version build url sha256;
+          };
+        })
+        versions;
+    in
+    packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall.json))}" packages; };
+
 in
-paper // purpur // vanilla
+paper // purpur // vanilla // waterfall
