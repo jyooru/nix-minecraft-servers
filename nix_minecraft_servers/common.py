@@ -61,7 +61,9 @@ def get_json(*args, **kwargs) -> Any:
 
 
 def get_sha256(url: str) -> str:
-    with console.status(Text.from_markup(f"Manually hashing file [u bright_blue]{url}")):
+    with console.status(
+        Text.from_markup(f"Manually hashing file [u bright_blue]{url}")
+    ):
         response = get(url, should_log=False)
         hash = sha256(response.content).hexdigest()
     log.debug(f"GET {url} {response.status_code} [bold magenta]{hash}")
