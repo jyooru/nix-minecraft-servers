@@ -68,6 +68,20 @@ let
     in
     packages // { vanilla = builtins.getAttr "vanilla_${escapeVersion (latestVersion (lib.importJSON ./vanilla.json))}" packages; };
 
+  velocity =
+    let
+      versions = lib.importJSON ./velocity.json;
+      packages = lib.mapAttrs'
+        (version: value: {
+          name = "velocity_${escapeVersion version}";
+          value = callPackage ./velocity.nix {
+            inherit (value) version build url sha256;
+          };
+        })
+        versions;
+    in
+    packages // { velocity = builtins.getAttr "velocity_${escapeVersion (latestVersion (lib.importJSON ./velocity.json))}" packages; };
+
   waterfall =
     let
       versions = lib.importJSON ./waterfall.json;
@@ -83,4 +97,4 @@ let
     packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall.json))}" packages; };
 
 in
-airplane // paper // purpur // vanilla // waterfall
+airplane // paper // purpur // vanilla // velocity // waterfall
