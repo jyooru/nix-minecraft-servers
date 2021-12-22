@@ -17,7 +17,7 @@ def last_successful_build() -> int:
     return last_successful_build
 
 
-def generate() -> Dict[str, Union[int, List[str]]]:
+def generate() -> Dict[str, Dict[str, Union[int, List[str], str]]]:
     build = last_successful_build()
     url = f"https://ci.tivy.ca/job/Airplane-1.17/{build}/artifact/launcher-airplane.jar"
     return {
