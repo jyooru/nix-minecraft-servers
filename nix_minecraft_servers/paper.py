@@ -32,7 +32,7 @@ class Build(DataClassJsonMixin):
 
     def output_for_nix(self) -> Dict[str, Union[str, int]]:
         return {
-            "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/application",
+            "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/{self.downloads['application'].name}",
             "sha256": self.downloads["application"].sha256,
             "build": self.build,
             "version": self.version,
@@ -77,7 +77,13 @@ class Project(DataClassJsonMixin):
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
     project = Project.get("paper")
-    major_versions_str = get_latest_major_versions(project.versions)
+    major_versions_str = get_latest_major_versions(
+        [
+            version
+            for version in project.versions
+            if not any(["pre" in v for v in version.split("-")])
+        ]
+    )
     major_versions_Version = {
         major_version: project.get_version(version)
         for major_version, version in major_versions_str.items()
