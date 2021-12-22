@@ -4,7 +4,6 @@ from datetime import datetime
 from logging import getLogger
 from typing import Any, Dict, List, Optional
 
-import requests
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 

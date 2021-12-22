@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from logging import getLogger
 from typing import Dict, List, Union
 
-import requests
 from dataclasses_json import DataClassJsonMixin
 
 from .common import get_json, get_latest_major_versions
