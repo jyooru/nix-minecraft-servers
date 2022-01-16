@@ -2,15 +2,17 @@
   description = "Minecraft server packages";
 
   inputs = {
+    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
+    flake-compat-ci.url = "github:hercules-ci/flake-compat-ci";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem
       (system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs { config.allowUnfree = true; inherit system; };
           requirements = with pkgs; [
             (python3.withPackages (ps: with ps; [ black dataclasses-json flake8 isort mypy python-jenkins requests rich types-requests ]))
           ];
@@ -25,6 +27,11 @@
             };
           };
           defaultApp = apps.nix-minecraft-server;
+
+          ciNix = {
+            inherit devShell;
+            packages = recurseIntoAttrs packages;
+          };
 
           devShell = pkgs.mkShell { packages = requirements; };
 
