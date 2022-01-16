@@ -29,12 +29,13 @@
           defaultApp = apps.nix-minecraft-server;
 
           ciNix = {
-            inherit devShell;
+            inherit devShell overlay;
             packages = recurseIntoAttrs packages;
           };
 
           devShell = pkgs.mkShell { packages = requirements; };
 
+          overlay = (final: prev: { minecraftServers = packages; });
           packages = import ./packages { inherit (pkgs) callPackage lib; };
         }
       );
