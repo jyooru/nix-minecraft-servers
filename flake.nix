@@ -23,7 +23,7 @@
             nix-minecraft-server = writeShellApplication {
               runtimeInputs = requirements;
               name = "nix-minecraft-server";
-              text = "PYTHONPATH='${toString ./.}' python3 -m nix_minecraft_servers";
+              text = "PYTHONPATH='${toString ./ci}' python3 -m nix_minecraft_servers";
             };
           };
           defaultApp = apps.nix-minecraft-server;
@@ -35,7 +35,7 @@
 
           devShell = pkgs.mkShell { packages = requirements; };
 
-          packages = import ./pkgs { inherit (pkgs) callPackage lib javaPackages; };
+          packages = import ./packages { inherit (pkgs) callPackage lib javaPackages; };
         }
       );
 }

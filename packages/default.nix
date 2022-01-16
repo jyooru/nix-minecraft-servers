@@ -9,11 +9,11 @@ let
 
   # airplane =
   #   let
-  #     versions = lib.importJSON ./airplane.json;
+  #     versions = lib.importJSON ./airplane/sources.json;
   #     packages = lib.mapAttrs'
   #       (version: value: {
   #         name = "airplane_${escapeVersion version}";
-  #         value = callPackage ./airplane.nix {
+  #         value = callPackage ./airplane {
   #           inherit (value) version build url sha256;
 
   #         };
@@ -25,76 +25,76 @@ let
 
   paper =
     let
-      versions = lib.importJSON ./paper.json;
+      versions = lib.importJSON ./paper/sources.json;
       packages = lib.mapAttrs'
         (version: value: {
           name = "paper_${escapeVersion version}";
-          value = callPackage ./paper.nix {
+          value = callPackage ./paper {
             inherit (value) version build url sha256;
           };
         })
         versions;
     in
-    packages // { paper = builtins.getAttr "paper_${escapeVersion (latestVersion (lib.importJSON ./paper.json))}" packages; };
+    packages // { paper = builtins.getAttr "paper_${escapeVersion (latestVersion (lib.importJSON ./paper/sources.json))}" packages; };
 
 
   purpur =
     let
-      versions = lib.importJSON ./purpur.json;
+      versions = lib.importJSON ./purpur/sources.json;
       packages = lib.mapAttrs'
         (version: value: {
           name = "purpur_${escapeVersion version}";
-          value = callPackage ./purpur.nix {
+          value = callPackage ./purpur {
             inherit (value) version build url sha256;
           };
         })
         versions;
     in
-    packages // { purpur = builtins.getAttr "purpur_${escapeVersion (latestVersion (lib.importJSON ./purpur.json))}" packages; };
+    packages // { purpur = builtins.getAttr "purpur_${escapeVersion (latestVersion (lib.importJSON ./purpur/sources.json))}" packages; };
 
   vanilla =
     let
-      versions = lib.importJSON ./vanilla.json;
+      versions = lib.importJSON ./vanilla/sources.json;
 
       packages = lib.mapAttrs'
         (version: value: {
           name = "vanilla_${escapeVersion version}";
-          value = callPackage ./vanilla.nix {
+          value = callPackage ./vanilla {
             inherit (value) version url sha1;
             jre_headless = getJavaVersion (if value.javaVersion == null then 8 else value.javaVersion); # versions <= 1.6 will default to 8
           };
         })
         versions;
     in
-    packages // { vanilla = builtins.getAttr "vanilla_${escapeVersion (latestVersion (lib.importJSON ./vanilla.json))}" packages; };
+    packages // { vanilla = builtins.getAttr "vanilla_${escapeVersion (latestVersion (lib.importJSON ./vanilla/sources.json))}" packages; };
 
   velocity =
     let
-      versions = lib.importJSON ./velocity.json;
+      versions = lib.importJSON ./velocity/sources.json;
       packages = lib.mapAttrs'
         (version: value: {
           name = "velocity_${escapeVersion version}";
-          value = callPackage ./velocity.nix {
+          value = callPackage ./velocity {
             inherit (value) version build url sha256;
           };
         })
         versions;
     in
-    packages // { velocity = builtins.getAttr "velocity_${escapeVersion (latestVersion (lib.importJSON ./velocity.json))}" packages; };
+    packages // { velocity = builtins.getAttr "velocity_${escapeVersion (latestVersion (lib.importJSON ./velocity/sources.json))}" packages; };
 
   waterfall =
     let
-      versions = lib.importJSON ./waterfall.json;
+      versions = lib.importJSON ./waterfall/sources.json;
       packages = lib.mapAttrs'
         (version: value: {
           name = "waterfall_${escapeVersion version}";
-          value = callPackage ./waterfall.nix {
+          value = callPackage ./waterfall {
             inherit (value) version build url sha256;
           };
         })
         versions;
     in
-    packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall.json))}" packages; };
+    packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall/sources.json))}" packages; };
 
 in
 # airplane //

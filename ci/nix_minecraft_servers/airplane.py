@@ -31,7 +31,7 @@ def generate() -> Dict[str, Dict[str, Union[int, List[str], str]]]:
 
 
 def main() -> None:
-    with open("pkgs/airplane.json", "w") as file:
+    with open("packages/airplane/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Airplane")
         json.dump(data, file, indent=2)

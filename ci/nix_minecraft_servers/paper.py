@@ -99,7 +99,7 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 
 def main() -> None:
-    with open("pkgs/paper.json", "w") as file:
+    with open("packages/paper/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Paper")
         json.dump(data, file, indent=2)

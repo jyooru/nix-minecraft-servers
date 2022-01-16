@@ -79,7 +79,7 @@ def get_versions() -> List[Version]:
     return [
         Version.from_dict(version)
         for version in get_json(
-            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
+            "https://launchermeta.mojang.com/mc/game/version_manifest/sources.json"
         )["versions"]
     ]
 
@@ -150,7 +150,7 @@ def generate() -> Dict[str, Dict[str, str]]:
 
 
 def main() -> None:
-    with open("pkgs/vanilla.json", "w") as file:
+    with open("packages/vanilla/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Vanilla")
         json.dump(data, file, indent=2)

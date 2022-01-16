@@ -10,8 +10,10 @@ log = getLogger(__name__)
 
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
-    project = Project.get("waterfall")
-    major_versions_str = get_latest_major_versions(project.versions)
+    project = Project.get("velocity")
+    major_versions_str = get_latest_major_versions(
+        [version for version in project.versions if not version.endswith("SNAPSHOT")]
+    )
     major_versions_Version = {
         major_version: project.get_version(version)
         for major_version, version in major_versions_str.items()
@@ -28,9 +30,9 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 
 def main() -> None:
-    with open("pkgs/waterfall.json", "w") as file:
+    with open("packages/velocity/sources.json", "w") as file:
         data = generate()
-        log.info(f"[b]Found {len(data.keys())} versions for Waterfall")
+        log.info(f"[b]Found {len(data.keys())} versions for Velocity")
         json.dump(data, file, indent=2)
         file.write("\n")
 
