@@ -35,7 +35,7 @@
 
           devShell = pkgs.mkShell { packages = requirements; };
 
-          packages = import ./packages { inherit (pkgs) callPackage lib javaPackages; };
+          packages = import ./packages { inherit (pkgs) callPackage lib; };
         }
       );
 }
