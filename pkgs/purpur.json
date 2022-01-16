@@ -24,9 +24,9 @@
     "build": 1428
   },
   "1.18": {
-    "url": "https://api.purpurmc.org/v2/purpur/1.18.1/1445/download",
-    "sha256": "6449755daa2c9010149c8b9b86fdba5ec05aedd3d96d8d884abb5b8f5fa1896a",
+    "url": "https://api.purpurmc.org/v2/purpur/1.18.1/1506/download",
+    "sha256": "f4a6b26e219f83c18828506c5706b52022a8124eb857ba547621ff8db28f8977",
     "version": "1.18.1",
-    "build": 1445
+    "build": 1506
   }
 }
