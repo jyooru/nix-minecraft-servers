@@ -3,7 +3,6 @@ from logging import getLogger
 from typing import Dict, Union
 
 from .common import get_latest_major_versions
-
 from .paper import Project
 
 
@@ -29,7 +28,7 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 
 def main() -> None:
-    with open("pkgs/waterfall.json", "w") as file:
+    with open("packages/waterfall/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Waterfall")
         json.dump(data, file, indent=2)

@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from logging import getLogger
 from typing import Dict, List, Union
 
-import requests
 from dataclasses_json import DataClassJsonMixin
 
 from .common import get_json, get_latest_major_versions
@@ -100,7 +99,7 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
 
 
 def main() -> None:
-    with open("pkgs/paper.json", "w") as file:
+    with open("packages/paper/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Paper")
         json.dump(data, file, indent=2)
