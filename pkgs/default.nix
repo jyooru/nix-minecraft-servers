@@ -7,20 +7,20 @@ let
   getJavaVersion = v: (builtins.getAttr "openjdk${toString v}" javaPackages.compiler).headless;
 
 
-  airplane =
-    let
-      versions = lib.importJSON ./airplane.json;
-      packages = lib.mapAttrs'
-        (version: value: {
-          name = "airplane_${escapeVersion version}";
-          value = callPackage ./airplane.nix {
-            inherit (value) version build url sha256;
+  # airplane =
+  #   let
+  #     versions = lib.importJSON ./airplane.json;
+  #     packages = lib.mapAttrs'
+  #       (version: value: {
+  #         name = "airplane_${escapeVersion version}";
+  #         value = callPackage ./airplane.nix {
+  #           inherit (value) version build url sha256;
 
-          };
-        })
-        versions;
-    in
-    packages;
+  #         };
+  #       })
+  #       versions;
+  #   in
+  #   packages;
 
 
   paper =
@@ -97,4 +97,5 @@ let
     packages // { waterfall = builtins.getAttr "waterfall_${escapeVersion (latestVersion (lib.importJSON ./waterfall.json))}" packages; };
 
 in
-airplane // paper // purpur // vanilla // velocity // waterfall
+# airplane //
+paper // purpur // vanilla // velocity // waterfall
