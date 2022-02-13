@@ -13,27 +13,15 @@
       (system:
         let
           pkgs = import nixpkgs { config.allowUnfree = true; inherit system; };
-          requirements = with pkgs; [
-            (python3.withPackages (ps: with ps; [ black dataclasses-json flake8 isort mypy python-jenkins requests rich types-requests ]))
-          ];
         in
         with pkgs;
         rec {
-          apps = {
-            nix-minecraft-server = writeShellApplication {
-              runtimeInputs = requirements;
-              name = "nix-minecraft-server";
-              text = "PYTHONPATH='${toString ./ci}' python3 -m nix_minecraft_servers";
-            };
-          };
-          defaultApp = apps.nix-minecraft-server;
-
           ciNix = {
             inherit devShell overlay;
             packages = recurseIntoAttrs packages;
           };
 
-          devShell = pkgs.mkShell { packages = requirements; };
+          devShell = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
 
           overlay = (final: prev: { minecraftServers = packages; });
           packages = import ./packages { inherit (pkgs) callPackage lib; };
