@@ -56,7 +56,7 @@ def get(url: str, should_log: bool = True) -> requests.Response:
     return response
 
 
-def get_json(*args, **kwargs) -> Any:
+def get_json(*args: Any, **kwargs: Any) -> Any:
     return get(*args, **kwargs).json()
 
 

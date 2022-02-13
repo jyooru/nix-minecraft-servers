@@ -16,7 +16,7 @@ def get_packages() -> dict[str, dict[str, str]]:
     return {key.split(".")[2]: value for key, value in output.items()}
 
 
-def main():
+def main() -> None:
     with open("README.md") as file:
         old_readme = file.readlines()
     new_readme = []
