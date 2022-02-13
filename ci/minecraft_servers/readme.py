@@ -20,8 +20,8 @@ def main() -> None:
     with open("README.md") as file:
         old_readme = file.readlines()
     new_readme = []
-    start = find_line(old_readme, "<!-- ci.readme start -->") + 2
-    end = find_line(old_readme[start:], "<!-- ci.readme end -->") + start - 1
+    start = find_line(old_readme, "<!-- minecraft-servers start -->") + 2
+    end = find_line(old_readme[start:], "<!-- minecraft-servers end -->") + start - 1
 
     packages = {key: value["version"] for key, value in get_packages().items()}
 
