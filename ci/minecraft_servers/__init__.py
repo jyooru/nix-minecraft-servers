@@ -3,7 +3,7 @@ import logging
 from rich.console import Console
 from rich.logging import RichHandler
 
-from . import paper, purpur, vanilla, velocity, waterfall
+from .packages import packages
 
 
 console = Console()
@@ -16,10 +16,4 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-pkgs = {
-    "paper": paper,
-    "purpur": purpur,
-    "vanilla": vanilla,
-    "velocity": velocity,
-    "waterfall": waterfall,
-}
+__all__ = ["packages"]

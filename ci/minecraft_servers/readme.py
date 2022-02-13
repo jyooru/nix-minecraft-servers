@@ -31,7 +31,7 @@ def main():
     new_readme += [
         f"| {package} | {version} |\n"
         for package, version in packages.items()
-        if "_" not in package 
+        if "_" not in package
     ]
     new_readme.append("<details>\n")
     new_readme.append("<summary><b>All versions available</b></summary>\n")
