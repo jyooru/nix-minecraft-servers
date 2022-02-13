@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  release:
+    types: [published]
+
+jobs:
+  lint:
+    defaults:
+      run:
+        working-directory: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Set up Poetry
+        uses: Gr1N/setup-poetry@v7
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-${{ matrix.python-version }}-
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+      - name: Check formatting with black
+        if: ${{ always() }}
+        run: poetry run black . --check
+      - name: Lint with flake8
+        if: ${{ always() }}
+        run: poetry run flake8 . --count --show-source --statistics
+      - name: Check formatting with isort
+        if: ${{ always() }}
+        run: poetry run isort . --check --diff
+      - name: Check types with mypy
+        if: ${{ always() }}
+        run: poetry run mypy .
