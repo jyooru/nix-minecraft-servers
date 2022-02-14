@@ -6,7 +6,7 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 
 # Packages
 
-<!-- ci.readme start -->
+<!-- minecraft-servers start -->
 
 | Name      | Latest Version |
 | --------- | -------------- |
@@ -70,6 +70,6 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 </table>
 </details>
 
-<!-- ci.readme end -->
+<!-- minecraft-servers end -->
 
 # License

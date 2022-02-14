@@ -16,7 +16,7 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-pkgs = {
+packages = {
     "paper": paper,
     "purpur": purpur,
     "vanilla": vanilla,

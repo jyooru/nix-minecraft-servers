@@ -23,7 +23,7 @@ class Build(DataClassJsonMixin):
     version: str
 
     def get_url(self) -> str:
-        return f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{self.build}/download"
+        return f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{self.build}/download"  # noqa: E501
 
     def output_for_nix(self) -> Dict[str, Union[str, int]]:
         return {

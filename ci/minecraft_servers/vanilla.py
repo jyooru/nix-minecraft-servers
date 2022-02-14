@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
-from nix_minecraft_servers.common import get_json
+from .common import get_json
 
 
 log = getLogger(__name__)

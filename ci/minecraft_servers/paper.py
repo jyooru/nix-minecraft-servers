@@ -31,7 +31,7 @@ class Build(DataClassJsonMixin):
 
     def output_for_nix(self) -> Dict[str, Union[str, int]]:
         return {
-            "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/{self.downloads['application'].name}",
+            "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/{self.downloads['application'].name}",  # noqa: E501
             "sha256": self.downloads["application"].sha256,
             "build": self.build,
             "version": self.version,
@@ -48,7 +48,7 @@ class Version(DataClassJsonMixin):
     def get_build(self, build: int) -> Build:
         return Build.from_dict(
             get_json(
-                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"
+                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"  # noqa: E501
             )
         )
 
@@ -69,7 +69,7 @@ class Project(DataClassJsonMixin):
     def get_version(self, version: str) -> Version:
         return Version.from_dict(
             get_json(
-                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{version}"
+                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{version}"  # noqa: E501
             )
         )
 

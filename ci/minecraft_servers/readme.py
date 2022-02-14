@@ -16,12 +16,12 @@ def get_packages() -> dict[str, dict[str, str]]:
     return {key.split(".")[2]: value for key, value in output.items()}
 
 
-def main():
+def main() -> None:
     with open("README.md") as file:
         old_readme = file.readlines()
     new_readme = []
-    start = find_line(old_readme, "<!-- ci.readme start -->") + 2
-    end = find_line(old_readme[start:], "<!-- ci.readme end -->") + start - 1
+    start = find_line(old_readme, "<!-- minecraft-servers start -->") + 2
+    end = find_line(old_readme[start:], "<!-- minecraft-servers end -->") + start - 1
 
     packages = {key: value["version"] for key, value in get_packages().items()}
 
@@ -31,7 +31,7 @@ def main():
     new_readme += [
         f"| {package} | {version} |\n"
         for package, version in packages.items()
-        if "_" not in package 
+        if "_" not in package
     ]
     new_readme.append("<details>\n")
     new_readme.append("<summary><b>All versions available</b></summary>\n")
