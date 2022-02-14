@@ -1,10 +1,9 @@
 from hashlib import sha256
 from logging import getLogger
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import requests
 from rich.console import Console
-from rich.text import Text
 
 
 console = Console()
@@ -48,21 +47,7 @@ def get_latest_major_versions(versions: List[str]) -> Dict[str, str]:
     }
 
 
-def get(url: str) -> requests.Response:
+def get_sha256(url: str) -> str:
     response = requests.get(url)
     response.raise_for_status()
-    return response
-
-
-def get_json(*args: Any, **kwargs: Any) -> Any:
-    return get(*args, **kwargs).json()
-
-
-def get_sha256(url: str) -> str:
-    with console.status(
-        Text.from_markup(f"Manually hashing file [u bright_blue]{url}")
-    ):
-        response = get(url)
-        hash = sha256(response.content).hexdigest()
-    log.debug(f"GET {url} {response.status_code} [bold magenta]{hash}")
-    return hash
+    return sha256(response.content).hexdigest()
