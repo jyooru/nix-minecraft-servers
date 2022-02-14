@@ -70,13 +70,14 @@ class Version(DataClassJsonMixin):
         return downloads.get("server")
 
 
-async def get_versions(session: ClientSession) -> List[Version]:
-    """Return a list of Version objects for all available versions."""
+async def get_versions(session: ClientSession) -> Dict[str, Version]:
+    """Return a dictionary of Version objects for all available versions."""
     async with session.get(
         "https://launchermeta.mojang.com/mc/game/version_manifest.json"
     ) as response:
         json = await response.json()
-        return [Version.from_dict(version) for version in json["versions"]]
+        versions = [Version.from_dict(version) for version in json["versions"]]
+        return {version.id: version for version in versions}
 
 
 def get_major_release(version_id: str) -> str:
@@ -123,12 +124,8 @@ async def generate() -> Dict[str, Dict[str, str]]:
     """
     async with ClientSession() as session:
         versions = await get_versions(session)
-        releases = filter(lambda version: version.type == "release", versions)
-        major_releases = get_latest_major_releases(list(releases))
-        servers = {
-            key: await value.get_server(session)
-            for key, value in major_releases.items()
-        }
+        releases = filter(lambda version: version.type == "release", versions.values())
+        servers = {value.id: await value.get_server(session) for value in releases}
 
         data = {
             key: Download.schema().dump(value)
@@ -137,6 +134,6 @@ async def generate() -> Dict[str, Dict[str, str]]:
         }
         for key, value in data.items():
             del value["size"]
-            value["version"] = major_releases[key].id
-            value["javaVersion"] = await major_releases[key].get_java_version(session)
+            value["version"] = versions[key].id
+            value["javaVersion"] = await versions[key].get_java_version(session)
     return data
