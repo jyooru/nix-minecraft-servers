@@ -1,10 +1,13 @@
+from asyncio import gather
+import asyncio
 from dataclasses import dataclass
 from logging import getLogger
 from typing import Dict, List, Union
 
+from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
-from .common import get_json, get_latest_major_versions, get_sha256
+from .common import get_latest_major_versions, get_major_release, get_sha256
 
 
 log = getLogger(__name__)
@@ -25,9 +28,10 @@ class Build(DataClassJsonMixin):
         return f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{self.build}/download"  # noqa: E501
 
     def output_for_nix(self) -> Dict[str, Union[str, int]]:
+        url = self.get_url()
         return {
-            "url": self.get_url(),
-            "sha256": get_sha256(self.get_url()),
+            "url": url,
+            "sha256": get_sha256(url),
             "version": self.version,
             "build": int(self.build),
         }
@@ -45,12 +49,11 @@ class Version(DataClassJsonMixin):
     project: str
     version: str
 
-    def get_build(self, build: str) -> Build:
-        return Build.from_dict(
-            get_json(
-                f"https://api.purpurmc.org/v2/{self.project}/{self.version}/{build}"
-            )
-        )
+    async def get_build(self, session: ClientSession, build: str) -> Build:
+        async with session.get(
+            f"/v2/{self.project}/{self.version}/{build}"
+        ) as response:
+            return Build.from_dict(await response.json())
 
 
 @dataclass
@@ -59,28 +62,33 @@ class Project(DataClassJsonMixin):
     versions: List[str]
 
     @staticmethod
-    def get(project: str) -> "Project":
-        return Project.from_dict(get_json(f"https://api.purpurmc.org/v2/{project}"))
+    async def get(session: ClientSession, project: str) -> "Project":
+        async with session.get(f"/v2/{project}") as response:
+            return Project.from_dict(await response.json())
 
-    def get_version(self, version: str) -> Version:
-        return Version.from_dict(
-            get_json(f"https://api.purpurmc.org/v2/{self.project}/{version}")
+    async def get_version(self, session: ClientSession, version: str) -> Version:
+        async with session.get(f"/v2/{self.project}/{version}") as response:
+            return Version.from_dict(await response.json())
+
+
+async def async_generate() -> Dict[str, Dict[str, Union[str, int]]]:
+    async with ClientSession("https://api.purpurmc.org") as session:
+        project = await Project.get(session, "purpur")
+        major_versions = get_latest_major_versions(project.versions)
+        versions = await gather(
+            *[
+                project.get_version(session, version)
+                for version in major_versions.values()
+            ]
         )
+        builds = await gather(
+            *[version.get_build(session, version.builds.latest) for version in versions]
+        )
+
+    return {
+        get_major_release(build.version): build.output_for_nix() for build in builds
+    }
 
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
-    project = Project.get("purpur")
-    major_versions_str = get_latest_major_versions(project.versions)
-    major_versions_Version = {
-        major_version: project.get_version(version)
-        for major_version, version in major_versions_str.items()
-    }
-    major_versions_Build = {
-        major_version: version.get_build(version.builds.latest)
-        for major_version, version in major_versions_Version.items()
-    }
-    major_versions_dict = {
-        major_version: build.output_for_nix()
-        for major_version, build in major_versions_Build.items()
-    }
-    return major_versions_dict
+    return asyncio.run(async_generate())
