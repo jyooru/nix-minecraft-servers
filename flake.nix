@@ -2,8 +2,6 @@
   description = "Minecraft server packages";
 
   inputs = {
-    flake-compat = { url = "github:edolstra/flake-compat"; flake = false; };
-    flake-compat-ci.url = "github:hercules-ci/flake-compat-ci";
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
@@ -16,10 +14,6 @@
         in
         with pkgs;
         rec {
-          ciNix = {
-            packages = recurseIntoAttrs packages;
-          };
-
           devShell = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
 
           overlay = (final: prev: { minecraftServers = packages; });

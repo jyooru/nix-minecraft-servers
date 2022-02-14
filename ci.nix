@@ -1,10 +1,14 @@
 let
-  lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-  inherit (lock.nodes.flake-compat.locked) owner repo rev narHash;
-  flake-compat = builtins.fetchTarball {
-    url = "https://github.com/${owner}/${repo}/archive/${rev}.tar.gz";
-    sha256 = narHash;
-  };
-  flake = import flake-compat { src = ./.; };
+  inherit (builtins) currentSystem getFlake;
+  inherit (flake) inputs;
+  inherit (pkgs) lib;
+  inherit (lib) recurseIntoAttrs;
+
+  flake = getFlake (toString ./.);
+  pkgs = import inputs.nixpkgs { inherit system; };
+  system = currentSystem;
 in
-flake.defaultNix.ciNix.x86_64-linux
+{
+  defaultPackage = flake.defaultPackage.${system};
+  packages = recurseIntoAttrs flake.packages.${system};
+}
