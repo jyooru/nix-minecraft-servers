@@ -1,4 +1,3 @@
-import json
 from logging import getLogger
 from typing import Dict, List, Union
 
@@ -28,15 +27,3 @@ def generate() -> Dict[str, Dict[str, Union[int, List[str], str]]]:
             "version": "1.17.1",
         }
     }
-
-
-def main() -> None:
-    with open("packages/airplane/sources.json", "w") as file:
-        data = generate()
-        log.info(f"[b]Found {len(data.keys())} versions for Airplane")
-        json.dump(data, file, indent=2, sort_keys=True)
-        file.write("\n")
-
-
-if __name__ == "__main__":
-    main()
