@@ -1,11 +1,15 @@
 import argparse
 import json
+from asyncio import gather, run
 from logging import getLogger
 from typing import List
 
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+
 from . import packages, readme
 
-
+console = Console()
 log = getLogger(__name__)
 
 
@@ -45,7 +49,14 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         return parser.parse_args(args)
 
 
-def main(args: List[str] = []) -> None:
+async def fetch_package(package: str, output: str) -> None:
+    data = await packages[package].generate()
+    with open(output.format(package), "w") as file:
+        json.dump(data, file, indent=2, sort_keys=True)
+        file.write("\n")
+
+
+async def async_main(args: List[str] = []) -> None:
     parsed_args = parse_args(args)
 
     if parsed_args.verbose:
@@ -57,19 +68,29 @@ def main(args: List[str] = []) -> None:
     else:
         parsed_args.packages = set(parsed_args.packages.split(","))
 
+    tasks = []
     for package in parsed_args.packages:
         if package in packages:
-            log.info(f"[b]Fetching versions for {package.title()}")
-            data = packages[package].generate()
-            with open(parsed_args.output.format(package), "w") as file:
-                log.info(f"[b]Found {len(data.keys())} versions for {package.title()}")
-                json.dump(data, file, indent=2, sort_keys=True)
-                file.write("\n")
+            tasks.append(fetch_package(package, parsed_args.output))
         else:
             raise Exception(f"unknown package '{package}'")
+
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        TimeElapsedColumn(),
+        transient=True,
+    ) as progress:
+        progress.add_task("Fetching packages...")
+        await gather(*tasks)
+
     if parsed_args.readme:
         log.info("[b]Updating README")
         readme.main()
+
+
+def main(*args, **kwargs) -> None:
+    run(async_main(*args, **kwargs))
 
 
 if __name__ == "__main__":

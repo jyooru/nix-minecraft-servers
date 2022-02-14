@@ -1,5 +1,4 @@
 from asyncio import gather
-import asyncio
 from dataclasses import dataclass
 from logging import getLogger
 from typing import Dict, List, Union
@@ -8,7 +7,6 @@ from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
 from .common import get_latest_major_versions, get_major_release, get_sha256
-
 
 log = getLogger(__name__)
 
@@ -71,7 +69,7 @@ class Project(DataClassJsonMixin):
             return Version.from_dict(await response.json())
 
 
-async def async_generate() -> Dict[str, Dict[str, Union[str, int]]]:
+async def generate() -> Dict[str, Dict[str, Union[str, int]]]:
     async with ClientSession("https://api.purpurmc.org") as session:
         project = await Project.get(session, "purpur")
         major_versions = get_latest_major_versions(project.versions).values()
@@ -85,7 +83,3 @@ async def async_generate() -> Dict[str, Dict[str, Union[str, int]]]:
     return {
         get_major_release(build.version): build.output_for_nix() for build in builds
     }
-
-
-def generate() -> Dict[str, Dict[str, Union[str, int]]]:
-    return asyncio.run(async_generate())

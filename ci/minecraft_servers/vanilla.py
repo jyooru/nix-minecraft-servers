@@ -1,13 +1,11 @@
-import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime
 from logging import getLogger
 from typing import Any, Dict, List, Optional
-from aiohttp import ClientSession
 
+from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
-
 
 log = getLogger(__name__)
 
@@ -117,7 +115,7 @@ def get_latest_major_releases(releases: List[Version]) -> Dict[str, Version]:
     }
 
 
-async def async_generate() -> Dict[str, Dict[str, str]]:
+async def generate() -> Dict[str, Dict[str, str]]:
     """
     Return a dictionary containing the latest url, sha1 and version for each major
     release.
@@ -141,7 +139,3 @@ async def async_generate() -> Dict[str, Dict[str, str]]:
             value["version"] = major_releases[key].id
             value["javaVersion"] = await major_releases[key].get_java_version(session)
     return data
-
-
-def generate() -> Dict[str, Dict[str, str]]:
-    return asyncio.run(async_generate())
