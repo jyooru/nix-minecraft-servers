@@ -33,7 +33,7 @@ def main() -> None:
     with open("packages/velocity/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Velocity")
-        json.dump(data, file, indent=2)
+        json.dump(data, file, indent=2, sort_keys=True)
         file.write("\n")
 
 
