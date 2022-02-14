@@ -48,11 +48,9 @@ def get_latest_major_versions(versions: List[str]) -> Dict[str, str]:
     }
 
 
-def get(url: str, should_log: bool = True) -> requests.Response:
+def get(url: str) -> requests.Response:
     response = requests.get(url)
     response.raise_for_status()
-    if should_log:
-        log.debug(f"GET {url} {response.status_code}")
     return response
 
 
@@ -64,7 +62,7 @@ def get_sha256(url: str) -> str:
     with console.status(
         Text.from_markup(f"Manually hashing file [u bright_blue]{url}")
     ):
-        response = get(url, should_log=False)
+        response = get(url)
         hash = sha256(response.content).hexdigest()
     log.debug(f"GET {url} {response.status_code} [bold magenta]{hash}")
     return hash
