@@ -124,7 +124,7 @@ async def generate() -> Dict[str, Dict[str, str]]:
     async with ClientSession() as session:
         versions = await get_versions(session)
         releases = filter(lambda version: version.type == "release", versions)
-        major_releases = get_latest_major_releases(releases)
+        major_releases = get_latest_major_releases(list(releases))
         servers = {
             key: await value.get_server(session)
             for key, value in major_releases.items()

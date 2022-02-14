@@ -2,7 +2,7 @@ import argparse
 import json
 from asyncio import gather, run
 from logging import getLogger
-from typing import List
+from typing import Any, List
 
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
@@ -90,7 +90,7 @@ async def async_main(args: List[str] = []) -> None:
         readme.main()
 
 
-def main(*args, **kwargs) -> None:
+def main(*args: Any, **kwargs: Any) -> None:
     run(async_main(*args, **kwargs))
 
 
