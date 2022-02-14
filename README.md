@@ -10,17 +10,17 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 
 | Name      | Latest Version |
 | --------- | -------------- |
-| paper     | 1.18.1-152     |
-| purpur    | 1.18.1-1506    |
+| paper     | 1.18.1-197     |
+| purpur    | 1.18.1-1555    |
 | vanilla   | 1.18.1         |
 | velocity  | 3.1.1-102      |
-| waterfall | 1.18-475       |
+| waterfall | 1.18-478       |
 
 <details>
 <summary><b>All versions available</b></summary>
 <table>
 <tr><th>Name</th><th>Version</th></tr>
-<tr><td>paper</td><td>1.18.1-152</td></tr>
+<tr><td>paper</td><td>1.18.1-197</td></tr>
 <tr><td>paper_1_10</td><td>1.10.2-918</td></tr>
 <tr><td>paper_1_11</td><td>1.11.2-1106</td></tr>
 <tr><td>paper_1_12</td><td>1.12.2-1620</td></tr>
@@ -29,15 +29,15 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 <tr><td>paper_1_15</td><td>1.15.2-393</td></tr>
 <tr><td>paper_1_16</td><td>1.16.5-794</td></tr>
 <tr><td>paper_1_17</td><td>1.17.1-408</td></tr>
-<tr><td>paper_1_18</td><td>1.18.1-152</td></tr>
+<tr><td>paper_1_18</td><td>1.18.1-197</td></tr>
 <tr><td>paper_1_8</td><td>1.8.8-445</td></tr>
 <tr><td>paper_1_9</td><td>1.9.4-775</td></tr>
-<tr><td>purpur</td><td>1.18.1-1506</td></tr>
+<tr><td>purpur</td><td>1.18.1-1555</td></tr>
 <tr><td>purpur_1_14</td><td>1.14.4-337</td></tr>
 <tr><td>purpur_1_15</td><td>1.15.2-606</td></tr>
 <tr><td>purpur_1_16</td><td>1.16.5-1171</td></tr>
 <tr><td>purpur_1_17</td><td>1.17.1-1428</td></tr>
-<tr><td>purpur_1_18</td><td>1.18.1-1506</td></tr>
+<tr><td>purpur_1_18</td><td>1.18.1-1555</td></tr>
 <tr><td>vanilla</td><td>1.18.1</td></tr>
 <tr><td>vanilla_1_10</td><td>1.10.2</td></tr>
 <tr><td>vanilla_1_11</td><td>1.11.2</td></tr>
@@ -58,7 +58,7 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 <tr><td>vanilla_1_9</td><td>1.9.4</td></tr>
 <tr><td>velocity</td><td>3.1.1-102</td></tr>
 <tr><td>velocity_3_1</td><td>3.1.1-102</td></tr>
-<tr><td>waterfall</td><td>1.18-475</td></tr>
+<tr><td>waterfall</td><td>1.18-478</td></tr>
 <tr><td>waterfall_1_11</td><td>1.11-108</td></tr>
 <tr><td>waterfall_1_12</td><td>1.12-185</td></tr>
 <tr><td>waterfall_1_13</td><td>1.13-276</td></tr>
@@ -66,7 +66,7 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 <tr><td>waterfall_1_15</td><td>1.15-350</td></tr>
 <tr><td>waterfall_1_16</td><td>1.16-431</td></tr>
 <tr><td>waterfall_1_17</td><td>1.17-454</td></tr>
-<tr><td>waterfall_1_18</td><td>1.18-475</td></tr>
+<tr><td>waterfall_1_18</td><td>1.18-478</td></tr>
 </table>
 </details>
 

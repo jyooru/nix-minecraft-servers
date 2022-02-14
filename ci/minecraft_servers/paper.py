@@ -102,7 +102,7 @@ def main() -> None:
     with open("packages/paper/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Paper")
-        json.dump(data, file, indent=2)
+        json.dump(data, file, indent=2, sort_keys=True)
         file.write("\n")
 
 

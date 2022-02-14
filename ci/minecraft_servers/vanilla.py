@@ -79,7 +79,7 @@ def get_versions() -> List[Version]:
     return [
         Version.from_dict(version)
         for version in get_json(
-            "https://launchermeta.mojang.com/mc/game/version_manifest/sources.json"
+            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
         )["versions"]
     ]
 
@@ -153,7 +153,7 @@ def main() -> None:
     with open("packages/vanilla/sources.json", "w") as file:
         data = generate()
         log.info(f"[b]Found {len(data.keys())} versions for Vanilla")
-        json.dump(data, file, indent=2)
+        json.dump(data, file, indent=2, sort_keys=True)
         file.write("\n")
 
 

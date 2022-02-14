@@ -1,8 +1,8 @@
 {
   "3.1": {
-    "url": "https://papermc.io/api/v2/projects/velocity/versions/3.1.1/builds/102/downloads/velocity-3.1.1-102.jar",
-    "sha256": "89a44c6385e39712717e2476254f931717f4d718deeb72578d159187cf5119c7",
     "build": 102,
+    "sha256": "89a44c6385e39712717e2476254f931717f4d718deeb72578d159187cf5119c7",
+    "url": "https://papermc.io/api/v2/projects/velocity/versions/3.1.1/builds/102/downloads/velocity-3.1.1-102.jar",
     "version": "3.1.1"
   }
 }
