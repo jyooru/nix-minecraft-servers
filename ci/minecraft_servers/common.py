@@ -1,10 +1,9 @@
 from hashlib import sha256
 from logging import getLogger
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import requests
 from rich.console import Console
-from rich.text import Text
 
 console = Console()
 log = getLogger(__name__)
