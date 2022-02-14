@@ -79,7 +79,7 @@ def get_versions() -> List[Version]:
     return [
         Version.from_dict(version)
         for version in get_json(
-            "https://launchermeta.mojang.com/mc/game/version_manifest/sources.json"
+            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
         )["versions"]
     ]
 
