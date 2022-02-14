@@ -7,7 +7,6 @@ let
   escapeVersion = replaceStrings [ "." ] [ "_" ];
   latestVersion = versions: last (sort versionOlder (attrNames versions));
 
-  # [ "airplane" ]
   allPackages = [ "paper" "purpur" "vanilla" "velocity" "waterfall" ];
 in
 
