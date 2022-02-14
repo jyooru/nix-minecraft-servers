@@ -14,6 +14,12 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         description="Automatically updated Minecraft servers",
     )
     parser.add_argument(
+        "-p",
+        "--packages",
+        type=str,
+        help="comma seperated string of packages to fetch",
+    )
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -25,16 +31,24 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         return parser.parse_args(args)
 
 
-def main() -> None:
-    parsed_args = parse_args()
+def main(args: List[str] = []) -> None:
+    parsed_args = parse_args(args)
+
     if parsed_args.verbose:
         getLogger().setLevel("DEBUG")
+    if parsed_args.packages is None:
+        parsed_args.packages = set(packages.keys())
+    else:
+        parsed_args.packages = set(parsed_args.packages.split(","))
 
-    for name, module in packages.items():
-        log.info(f"[b]Fetching versions for {name.title()}")
-        module.main()
+    for package in parsed_args.packages:
+        if package in packages:
+            log.info(f"[b]Fetching versions for {package.title()}")
+            packages[package].main()
+        else:
+            raise Exception(f"unknown package '{package}'")
 
-    log.info("f[b]Updating README")
+    log.info("[b]Updating README")
     readme.main()
 
 
