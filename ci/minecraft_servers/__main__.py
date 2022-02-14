@@ -1,4 +1,5 @@
 import argparse
+import json
 from logging import getLogger
 from typing import List
 
@@ -14,10 +15,17 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         description="Automatically updated Minecraft servers",
     )
     parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="path to save output json, defaults to 'packages/{}/sources.json'",
+        default="packages/{}/sources.json",
+    )
+    parser.add_argument(
         "-p",
         "--packages",
         type=str,
-        help="comma seperated string of packages to fetch",
+        help="packages to fetch, comma seperated",
     )
     parser.add_argument(
         "-v",
@@ -44,7 +52,11 @@ def main(args: List[str] = []) -> None:
     for package in parsed_args.packages:
         if package in packages:
             log.info(f"[b]Fetching versions for {package.title()}")
-            packages[package].main()
+            data = packages[package].generate()
+            with open(parsed_args.output.format(package), "w") as file:
+                log.info(f"[b]Found {len(data.keys())} versions for {package.title()}")
+                json.dump(data, file, indent=2, sort_keys=True)
+                file.write("\n")
         else:
             raise Exception(f"unknown package '{package}'")
 

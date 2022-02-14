@@ -1,4 +1,3 @@
-import json
 from logging import getLogger
 from typing import Dict, Union
 
@@ -27,15 +26,3 @@ def generate() -> Dict[str, Dict[str, Union[str, int]]]:
         for major_version, build in major_versions_Build.items()
     }
     return major_versions_dict
-
-
-def main() -> None:
-    with open("packages/velocity/sources.json", "w") as file:
-        data = generate()
-        log.info(f"[b]Found {len(data.keys())} versions for Velocity")
-        json.dump(data, file, indent=2, sort_keys=True)
-        file.write("\n")
-
-
-if __name__ == "__main__":
-    main()

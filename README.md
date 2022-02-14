@@ -11,7 +11,7 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 | Name      | Latest Version |
 | --------- | -------------- |
 | paper     | 1.18.1-197     |
-| purpur    | 1.18.1-1555    |
+| purpur    | 1.18.1-1557    |
 | vanilla   | 1.18.1         |
 | velocity  | 3.1.1-102      |
 | waterfall | 1.18-478       |
@@ -32,12 +32,12 @@ This project contains automatically updated Minecraft servers packaged for Nix.
 <tr><td>paper_1_18</td><td>1.18.1-197</td></tr>
 <tr><td>paper_1_8</td><td>1.8.8-445</td></tr>
 <tr><td>paper_1_9</td><td>1.9.4-775</td></tr>
-<tr><td>purpur</td><td>1.18.1-1555</td></tr>
+<tr><td>purpur</td><td>1.18.1-1557</td></tr>
 <tr><td>purpur_1_14</td><td>1.14.4-337</td></tr>
 <tr><td>purpur_1_15</td><td>1.15.2-606</td></tr>
 <tr><td>purpur_1_16</td><td>1.16.5-1171</td></tr>
 <tr><td>purpur_1_17</td><td>1.17.1-1428</td></tr>
-<tr><td>purpur_1_18</td><td>1.18.1-1555</td></tr>
+<tr><td>purpur_1_18</td><td>1.18.1-1557</td></tr>
 <tr><td>vanilla</td><td>1.18.1</td></tr>
 <tr><td>vanilla_1_10</td><td>1.10.2</td></tr>
 <tr><td>vanilla_1_11</td><td>1.11.2</td></tr>

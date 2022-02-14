@@ -1,4 +1,3 @@
-import json
 from dataclasses import dataclass, field
 from datetime import datetime
 from logging import getLogger
@@ -147,15 +146,3 @@ def generate() -> Dict[str, Dict[str, str]]:
         server["version"] = latest_major_releases[version].id
         server["javaVersion"] = latest_major_releases[version].get_java_version()
     return servers
-
-
-def main() -> None:
-    with open("packages/vanilla/sources.json", "w") as file:
-        data = generate()
-        log.info(f"[b]Found {len(data.keys())} versions for Vanilla")
-        json.dump(data, file, indent=2, sort_keys=True)
-        file.write("\n")
-
-
-if __name__ == "__main__":
-    main()
