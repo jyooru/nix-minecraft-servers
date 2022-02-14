@@ -6,7 +6,7 @@ from typing import Dict, List, Union
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
-from .common import get_major_release, get_sha256
+from .common import get_sha256
 
 
 log = getLogger(__name__)

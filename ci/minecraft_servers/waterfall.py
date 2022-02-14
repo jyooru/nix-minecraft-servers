@@ -4,7 +4,6 @@ from typing import Dict, Union
 
 from aiohttp import ClientSession
 
-from .common import get_latest_major_versions, get_major_release
 from .paper import Project
 
 
