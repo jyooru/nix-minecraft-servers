@@ -17,13 +17,13 @@
         with pkgs;
         rec {
           ciNix = {
-            inherit devShell overlay;
             packages = recurseIntoAttrs packages;
           };
 
           devShell = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
 
           overlay = (final: prev: { minecraftServers = packages; });
+          defaultPackage = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
           packages = import ./packages { inherit (pkgs) callPackage lib; };
         }
       );
