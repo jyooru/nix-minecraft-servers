@@ -74,12 +74,9 @@ class Project(DataClassJsonMixin):
 async def async_generate() -> Dict[str, Dict[str, Union[str, int]]]:
     async with ClientSession("https://api.purpurmc.org") as session:
         project = await Project.get(session, "purpur")
-        major_versions = get_latest_major_versions(project.versions)
+        major_versions = get_latest_major_versions(project.versions).values()
         versions = await gather(
-            *[
-                project.get_version(session, version)
-                for version in major_versions.values()
-            ]
+            *[project.get_version(session, version) for version in major_versions]
         )
         builds = await gather(
             *[version.get_build(session, version.builds.latest) for version in versions]

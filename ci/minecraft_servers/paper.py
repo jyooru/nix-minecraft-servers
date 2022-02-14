@@ -1,10 +1,13 @@
+import asyncio
+from asyncio import gather
 from dataclasses import dataclass
 from logging import getLogger
 from typing import Dict, List, Union
+from aiohttp import ClientSession
 
 from dataclasses_json import DataClassJsonMixin
 
-from .common import get_json, get_latest_major_versions
+from .common import get_json, get_latest_major_versions, get_major_release
 
 
 log = getLogger(__name__)
@@ -44,12 +47,11 @@ class Version(DataClassJsonMixin):
     project_name: str
     version: str
 
-    def get_build(self, build: int) -> Build:
-        return Build.from_dict(
-            get_json(
-                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"  # noqa: E501
-            )
-        )
+    async def get_build(self, session: ClientSession, build: int) -> Build:
+        async with session.get(
+            f"/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{build}"
+        ) as response:
+            return Build.from_dict(await response.json())
 
 
 @dataclass
@@ -60,38 +62,38 @@ class Project(DataClassJsonMixin):
     versions: List[str]
 
     @staticmethod
-    def get(project_id: str) -> "Project":
-        return Project.from_dict(
-            get_json(f"https://papermc.io/api/v2/projects/{project_id}")
+    async def get(session: ClientSession, project_id: str) -> "Project":
+        async with session.get(f"/api/v2/projects/{project_id}") as response:
+            return Project.from_dict(await response.json())
+
+    async def get_version(self, session: ClientSession, version: str) -> Version:
+        async with session.get(
+            f"/api/v2/projects/{self.project_id}/versions/{version}"
+        ) as response:
+            return Version.from_dict(await response.json())
+
+
+async def async_generate() -> Dict[str, Dict[str, Union[str, int]]]:
+    async with ClientSession("https://papermc.io") as session:
+        project = await Project.get(session, "paper")
+        major_versions = get_latest_major_versions(
+            [
+                version
+                for version in project.versions
+                if not any(["pre" in v for v in version.split("-")])
+            ]
+        ).values()
+        versions = await gather(
+            *[project.get_version(session, version) for version in major_versions]
+        )
+        builds = await gather(
+            *[version.get_build(session, max(version.builds)) for version in versions]
         )
 
-    def get_version(self, version: str) -> Version:
-        return Version.from_dict(
-            get_json(
-                f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{version}"  # noqa: E501
-            )
-        )
+    return {
+        get_major_release(build.version): build.output_for_nix() for build in builds
+    }
 
 
 def generate() -> Dict[str, Dict[str, Union[str, int]]]:
-    project = Project.get("paper")
-    major_versions_str = get_latest_major_versions(
-        [
-            version
-            for version in project.versions
-            if not any(["pre" in v for v in version.split("-")])
-        ]
-    )
-    major_versions_Version = {
-        major_version: project.get_version(version)
-        for major_version, version in major_versions_str.items()
-    }
-    major_versions_Build = {
-        major_version: version.get_build(max(version.builds))
-        for major_version, version in major_versions_Version.items()
-    }
-    major_versions_dict = {
-        major_version: build.output_for_nix()
-        for major_version, build in major_versions_Build.items()
-    }
-    return major_versions_dict
+    return asyncio.run(async_generate())
