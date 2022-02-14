@@ -7,6 +7,7 @@ from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
+
 log = getLogger(__name__)
 
 

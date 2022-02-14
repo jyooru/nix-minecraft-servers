@@ -8,6 +8,7 @@ from dataclasses_json import DataClassJsonMixin
 
 from .common import get_latest_major_versions, get_major_release, get_sha256
 
+
 log = getLogger(__name__)
 
 

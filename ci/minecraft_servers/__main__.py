@@ -9,6 +9,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 
 from . import packages, readme
 
+
 console = Console()
 log = getLogger(__name__)
 

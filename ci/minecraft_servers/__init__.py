@@ -4,6 +4,7 @@ from rich.logging import RichHandler
 
 from . import paper, purpur, vanilla, velocity, waterfall
 
+
 logging.basicConfig(
     level="INFO",
     format="%(message)s",

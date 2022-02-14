@@ -5,6 +5,7 @@ from typing import Dict, List
 import requests
 from rich.console import Console
 
+
 console = Console()
 log = getLogger(__name__)
 
