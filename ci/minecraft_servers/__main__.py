@@ -15,6 +15,12 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         description="Automatically updated Minecraft servers",
     )
     parser.add_argument(
+        "-r",
+        "--readme",
+        action="store_true",
+        help="enable readme update on completion",
+    )
+    parser.add_argument(
         "-o",
         "--output",
         type=str,
@@ -46,6 +52,8 @@ def main(args: List[str] = []) -> None:
         getLogger().setLevel("DEBUG")
     if parsed_args.packages is None:
         parsed_args.packages = set(packages.keys())
+    elif parsed_args.packages == "":
+        parsed_args.packages = []
     else:
         parsed_args.packages = set(parsed_args.packages.split(","))
 
@@ -59,9 +67,9 @@ def main(args: List[str] = []) -> None:
                 file.write("\n")
         else:
             raise Exception(f"unknown package '{package}'")
-
-    log.info("[b]Updating README")
-    readme.main()
+    if parsed_args.readme:
+        log.info("[b]Updating README")
+        readme.main()
 
 
 if __name__ == "__main__":
