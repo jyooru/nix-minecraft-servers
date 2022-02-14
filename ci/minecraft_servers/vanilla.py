@@ -1,12 +1,12 @@
+import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime
 from logging import getLogger
 from typing import Any, Dict, List, Optional
+from aiohttp import ClientSession
 
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
-
-from .common import get_json
 
 
 log = getLogger(__name__)
@@ -40,47 +40,44 @@ class Version(DataClassJsonMixin):
         )
     )
 
-    def get_manifest(self) -> Any:
+    async def get_manifest(self, session: ClientSession) -> Any:
         """Return the version's manifest."""
-        return get_json(self.url)
+        async with session.get(self.url) as response:
+            return await response.json()
 
-    def get_downloads(self) -> Dict[str, Download]:
+    async def get_downloads(self, session: ClientSession) -> Dict[str, Download]:
         """
         Return all downloadable files from the version's manifest, in Download
         objects.
         """
-        return {
-            download_name: Download.from_dict(download_info)
-            for download_name, download_info in self.get_manifest()["downloads"].items()
-        }
+        downloads = (await self.get_manifest(session))["downloads"]
+        return {key: Download.from_dict(value) for key, value in downloads.items()}
 
-    def get_java_version(self) -> Any:
+    async def get_java_version(self, session: ClientSession) -> Any:
         """
         Return the java version specified in a version's manifest, if it is
         present. Versions <= 1.6 do not specify this.
         """
-        return self.get_manifest().get("javaVersion", {}).get("majorVersion", None)
+        manifest = await self.get_manifest(session)
+        return manifest.get("javaVersion", {}).get("majorVersion", None)
 
-    def get_server(self) -> Optional[Download]:
+    async def get_server(self, session: ClientSession) -> Optional[Download]:
         """
         If the version has a server download available, return the Download
         object for the server download. If the version does not have a server
         download avilable, return None.
         """
-        downloads = self.get_downloads()
-        if "server" in downloads:
-            return downloads["server"]
-        return None
+        downloads = await self.get_downloads(session)
+        return downloads.get("server")
 
 
-def get_versions() -> List[Version]:
+async def get_versions(session: ClientSession) -> List[Version]:
     """Return a list of Version objects for all available versions."""
-    return [
-        Version.from_dict(version)
-        for version in get_json(
-            "https://launchermeta.mojang.com/mc/game/version_manifest.json"
-        )["versions"]
-    ]
+    async with session.get(
+        "https://launchermeta.mojang.com/mc/game/version_manifest.json"
+    ) as response:
+        json = await response.json()
+        return [Version.from_dict(version) for version in json["versions"]]
 
 
 def get_major_release(version_id: str) -> str:
@@ -120,29 +117,31 @@ def get_latest_major_releases(releases: List[Version]) -> Dict[str, Version]:
     }
 
 
-def generate() -> Dict[str, Dict[str, str]]:
+async def async_generate() -> Dict[str, Dict[str, str]]:
     """
     Return a dictionary containing the latest url, sha1 and version for each major
     release.
     """
-    versions = get_versions()
-    releases = list(
-        filter(lambda version: version.type == "release", versions)
-    )  # remove snapshots and betas
-    latest_major_releases = get_latest_major_releases(releases)
+    async with ClientSession() as session:
+        versions = await get_versions(session)
+        releases = filter(lambda version: version.type == "release", versions)
+        major_releases = get_latest_major_releases(releases)
+        servers = {
+            key: await value.get_server(session)
+            for key, value in major_releases.items()
+        }
 
-    servers = {
-        version: Download.schema().dump(download_info)  # Download -> dict
-        for version, download_info in {
-            version: value.get_server()
-            for version, value in latest_major_releases.items()
-        }.items()
-        if download_info is not None  # versions < 1.2 do not have a server
-    }
-    for server in servers.values():
-        del server["size"]  # don't need it
+        data = {
+            key: Download.schema().dump(value)
+            for key, value in servers.items()
+            if value is not None  # versions < 1.2 do not have a server
+        }
+        for key, value in data.items():
+            del value["size"]
+            value["version"] = major_releases[key].id
+            value["javaVersion"] = await major_releases[key].get_java_version(session)
+    return data
 
-    for version, server in servers.items():
-        server["version"] = latest_major_releases[version].id
-        server["javaVersion"] = latest_major_releases[version].get_java_version()
-    return servers
+
+def generate() -> Dict[str, Dict[str, str]]:
+    return asyncio.run(async_generate())
