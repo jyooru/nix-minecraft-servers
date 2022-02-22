@@ -136,4 +136,5 @@ async def generate() -> Dict[str, Dict[str, str]]:
             del value["size"]
             value["version"] = versions[key].id
             value["javaVersion"] = await versions[key].get_java_version(session)
-    return data
+
+    return [x for x in data.values()]

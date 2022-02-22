@@ -80,4 +80,4 @@ async def generate() -> Dict[str, Dict[str, Union[str, int]]]:
             *[version.get_build(session, version.builds.latest) for version in versions]
         )
 
-    return {build.version: build.output_for_nix() for build in builds}
+    return [build.output_for_nix() for build in builds]
