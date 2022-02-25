@@ -10,6 +10,7 @@ console = Console()
 log = getLogger(__name__)
 
 
+Aliases = Dict[str, str]
 Source = Dict[str, Union[int, str]]
 Sources = List[Source]
 

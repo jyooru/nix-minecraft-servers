@@ -6,8 +6,10 @@ from typing import Any, List
 
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from rich.status import Status
 
-from . import packages, readme
+from . import aliases, packages, readme
+from .common import Aliases
 
 
 console = Console()
@@ -33,6 +35,13 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         default="packages/{}/sources.json",
     )
     parser.add_argument(
+        "-a",
+        "--aliases",
+        type=str,
+        help="path to save aliases, defaults to 'packages/aliases.json'",
+        default="packages/aliases.json",
+    )
+    parser.add_argument(
         "-p",
         "--packages",
         type=str,
@@ -50,11 +59,13 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         return parser.parse_args(args)
 
 
-async def fetch_package(package: str, output: str) -> None:
-    data = await packages[package].generate()
+async def fetch_package(package: str, output: str) -> Aliases:
+    sources = await packages[package].generate()
     with open(output.format(package), "w") as file:
-        json.dump(data, file, indent=2, sort_keys=True)
+        json.dump(sources, file, indent=2, sort_keys=True)
         file.write("\n")
+
+    return aliases.generate(package, sources)
 
 
 async def async_main(args: List[str] = []) -> None:
@@ -83,11 +94,15 @@ async def async_main(args: List[str] = []) -> None:
         transient=True,
     ) as progress:
         progress.add_task("Fetching packages...")
-        await gather(*tasks)
+        package_aliases = await gather(*tasks)
+
+    with Status("Saving aliases..."):
+        with open(parsed_args.aliases, "w") as file:
+            json.dump(aliases.dump(package_aliases), file, indent=2, sort_keys=True)
 
     if parsed_args.readme:
-        log.info("[b]Updating README")
-        readme.main()
+        with Status("Updating README.md..."):
+            readme.main()
 
 
 def main(*args: Any, **kwargs: Any) -> None:
