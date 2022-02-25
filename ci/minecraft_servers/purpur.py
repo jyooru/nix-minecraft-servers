@@ -1,15 +1,56 @@
+import json
 from asyncio import gather
 from dataclasses import dataclass
+from hashlib import sha256
 from logging import getLogger
+from pathlib import Path
 from typing import Dict, List, Union
 
+import requests
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
+from platformdirs import user_cache_path
 
-from .common import Sources, get_sha256
+from .common import Sources
 
 
 log = getLogger(__name__)
+
+
+# until papyrus v2
+# https://github.com/PurpurMC/papyrus/issues/1
+class Sha256Cache:
+    data: Dict[str, str]
+
+    def __init__(self, path: Union[Path, str]) -> None:
+        if isinstance(path, str):
+            self.path = Path(path)
+        else:
+            self.path = path
+
+        if self.path.exists():
+            with open(str(path)) as file:
+                self.data = json.load(file)
+        else:
+            self.data = {}
+
+    def get(self, url: str) -> str:
+        if url not in self.data:
+            response = requests.get(url)
+            response.raise_for_status()
+            self.data[url] = sha256(response.content).hexdigest()
+
+        return self.data[url]
+
+    def save(self) -> None:
+        if not self.path.parent.exists():
+            self.path.parent.mkdir(parents=True)
+
+        with open(self.path, "w") as file:
+            json.dump(self.data, file, indent=2, sort_keys=True)
+
+
+cache = Sha256Cache(user_cache_path("minecraft-servers") / "purpur.json")
 
 
 @dataclass
@@ -30,7 +71,7 @@ class Build(DataClassJsonMixin):
         url = self.get_url()
         return {
             "url": url,
-            "sha256": get_sha256(url),
+            "sha256": cache.get(url),
             "version": self.version,
             "build": int(self.build),
         }
@@ -80,4 +121,6 @@ async def generate() -> Sources:
             *[version.get_build(session, version.builds.latest) for version in versions]
         )
 
-    return [build.output_for_nix() for build in builds]
+    sources = [build.output_for_nix() for build in builds]
+    cache.save()
+    return sources

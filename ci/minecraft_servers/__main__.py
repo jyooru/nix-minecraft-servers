@@ -4,6 +4,7 @@ from asyncio import gather, run
 from logging import getLogger
 from typing import Any, List
 
+from platformdirs import user_cache_dir
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 from rich.status import Status
@@ -17,15 +18,26 @@ log = getLogger(__name__)
 
 
 def parse_args(args: List[str] = []) -> argparse.Namespace:
+    prog = "minecraft-servers"
+
     parser = argparse.ArgumentParser(
-        prog="minecraft-servers",
+        prog=prog,
         description="Automatically updated Minecraft servers",
     )
+
     parser.add_argument(
-        "-r",
-        "--readme",
-        action="store_true",
-        help="enable readme update on completion",
+        "-a",
+        "--aliases",
+        type=str,
+        help="path to save aliases, defaults to 'packages/aliases.json'",
+        default="packages/aliases.json",
+    )
+    parser.add_argument(
+        "-c",
+        "--cache",
+        type=str,
+        help="path to save cache",
+        default=user_cache_dir(appname=prog),
     )
     parser.add_argument(
         "-o",
@@ -35,11 +47,10 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         default="packages/{}/sources.json",
     )
     parser.add_argument(
-        "-a",
-        "--aliases",
-        type=str,
-        help="path to save aliases, defaults to 'packages/aliases.json'",
-        default="packages/aliases.json",
+        "-r",
+        "--readme",
+        action="store_true",
+        help="enable readme update on completion",
     )
     parser.add_argument(
         "-p",

@@ -1,8 +1,6 @@
-from hashlib import sha256
 from logging import getLogger
 from typing import Dict, List, Union
 
-import requests
 from rich.console import Console
 
 
@@ -50,9 +48,3 @@ def get_latest_major_versions(versions: List[str]) -> Dict[str, str]:
         major_release: sorted(releases, reverse=True)[0]
         for major_release, releases in group_major_versions(versions).items()
     }
-
-
-def get_sha256(url: str) -> str:
-    response = requests.get(url)
-    response.raise_for_status()
-    return sha256(response.content).hexdigest()

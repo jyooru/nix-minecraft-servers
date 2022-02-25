@@ -349,7 +349,7 @@ python-versions = ">=2.6"
 name = "platformdirs"
 version = "2.5.1"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -617,7 +617,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "8b6bb78a99bc21c4c1394dc5d8970ce1081fa84d8152e58b02572787c53a00a2"
+content-hash = "2324459003db62b31c935202de5e11c6b0a058a8bf108e176e9c2e5628f8793a"
 
 [metadata.files]
 aiohttp = [
