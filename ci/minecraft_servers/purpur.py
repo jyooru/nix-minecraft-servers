@@ -6,7 +6,7 @@ from typing import Dict, List, Union
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
-from .common import get_sha256
+from .common import Sources, get_sha256
 
 
 log = getLogger(__name__)
@@ -70,7 +70,7 @@ class Project(DataClassJsonMixin):
             return Version.from_dict(await response.json())
 
 
-async def generate() -> Dict[str, Dict[str, Union[str, int]]]:
+async def generate() -> Sources:
     async with ClientSession("https://api.purpurmc.org") as session:
         project = await Project.get(session, "purpur")
         versions = await gather(
@@ -80,4 +80,4 @@ async def generate() -> Dict[str, Dict[str, Union[str, int]]]:
             *[version.get_build(session, version.builds.latest) for version in versions]
         )
 
-    return {build.version: build.output_for_nix() for build in builds}
+    return [build.output_for_nix() for build in builds]
