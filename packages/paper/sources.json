@@ -144,9 +144,9 @@
     "version": "1.17"
   },
   {
-    "build": 408,
-    "sha256": "e94d71efeccd2732a4c914c9f7ca8add850fdf5e045c548582c1e2758036d278",
-    "url": "https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/408/downloads/paper-1.17.1-408.jar",
+    "build": 409,
+    "sha256": "5a5852eee345e1cb4a040e9aa2a1d566279a048f5ca1f9be52b55cf555a425e9",
+    "url": "https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/409/downloads/paper-1.17.1-409.jar",
     "version": "1.17.1"
   },
   {
@@ -156,9 +156,9 @@
     "version": "1.18"
   },
   {
-    "build": 197,
-    "sha256": "c312f9b3ba21ecbe799a4a168658a859301c1794b5883fec3ef5e845fc259e6a",
-    "url": "https://papermc.io/api/v2/projects/paper/versions/1.18.1/builds/197/downloads/paper-1.18.1-197.jar",
+    "build": 214,
+    "sha256": "0bf75ef936ea6f1f12467670aab524dc587a60fd5b443dff0c7ddae3f89db291",
+    "url": "https://papermc.io/api/v2/projects/paper/versions/1.18.1/builds/214/downloads/paper-1.18.1-214.jar",
     "version": "1.18.1"
   }
 ]
