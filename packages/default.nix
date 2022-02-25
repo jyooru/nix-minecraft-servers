@@ -1,11 +1,15 @@
 { callPackage, lib }:
 
-let
-  inherit (builtins) attrNames getAttr replaceStrings sort;
-  inherit (lib) importJSON last mapAttrs' versionOlder;
+with lib;
 
+let
   escapeVersion = replaceStrings [ "." ] [ "_" ];
-  latestVersion = versions: last (sort versionOlder (attrNames versions));
+  unescapeVersion = replaceStrings [ "_" ] [ "." ];
+
+  fullVersion = version:
+    if (length (splitVersion version)) >= 3
+    then version
+    else fullVersion "${version}.0";
 
   allPackages = [ "paper" "purpur" "vanilla" "velocity" "waterfall" ];
 in
@@ -15,13 +19,18 @@ lib.foldr (a: b: a // b) { }
     (package:
       let
         sources = importJSON (./. + "/${package}/sources.json");
-        packages = mapAttrs'
-          (version: source: {
-            name = package + "_" + (escapeVersion version);
+        packages = listToAttrs (map
+          (source: {
+            name = fullVersion source.version;
             value = callPackage (./. + "/${package}") source;
           })
-          sources;
+          sources
+        );
       in
-      packages // { ${package} = getAttr (package + "_" + (escapeVersion (latestVersion sources))) packages; }
-    )
+      mapAttrs'
+        (name: value: {
+          name = "${package}_${escapeVersion name}";
+          inherit value;
+        })
+        packages)
     allPackages)
