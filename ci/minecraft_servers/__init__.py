@@ -5,6 +5,15 @@ from rich.logging import RichHandler
 from . import paper, purpur, vanilla, velocity, waterfall
 
 
+__all__ = [
+    "paper",
+    "purpur",
+    "vanilla",
+    "velocity",
+    "waterfall",
+]
+
+
 logging.basicConfig(
     level="INFO",
     format="%(message)s",
@@ -14,10 +23,4 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 
-packages = {
-    "paper": paper,
-    "purpur": purpur,
-    "vanilla": vanilla,
-    "velocity": velocity,
-    "waterfall": waterfall,
-}
+packages = {package: globals()[package] for package in __all__}
