@@ -1,6 +1,6 @@
 from hashlib import sha256
 from logging import getLogger
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import requests
 from rich.console import Console
@@ -8,6 +8,10 @@ from rich.console import Console
 
 console = Console()
 log = getLogger(__name__)
+
+
+Source = Dict[str, Union[int, str]]
+Sources = List[Source]
 
 
 def get_major_release(version: str) -> str:

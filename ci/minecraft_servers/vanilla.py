@@ -117,7 +117,7 @@ def get_latest_major_releases(releases: List[Version]) -> Dict[str, Version]:
     }
 
 
-async def generate() -> Dict[str, Dict[str, str]]:
+async def generate() -> List[Dict[str, Any]]:
     """
     Return a dictionary containing the latest url, sha1 and version for each major
     release.

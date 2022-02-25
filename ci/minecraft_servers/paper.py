@@ -1,10 +1,12 @@
 from asyncio import gather
 from dataclasses import dataclass
 from logging import getLogger
-from typing import Dict, List, Union
+from typing import Dict, List
 
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
+
+from .common import Source, Sources
 
 
 log = getLogger(__name__)
@@ -28,7 +30,7 @@ class Build(DataClassJsonMixin):
     time: str
     version: str
 
-    def output_for_nix(self) -> Dict[str, Union[str, int]]:
+    def output_for_nix(self) -> Source:
         return {
             "url": f"https://papermc.io/api/v2/projects/{self.project_id}/versions/{self.version}/builds/{self.build}/downloads/{self.downloads['application'].name}",  # noqa: E501
             "sha256": self.downloads["application"].sha256,
@@ -70,7 +72,7 @@ class Project(DataClassJsonMixin):
             return Version.from_dict(await response.json())
 
 
-async def generate() -> Dict[str, Dict[str, Union[str, int]]]:
+async def generate() -> Sources:
     async with ClientSession("https://papermc.io") as session:
         project = await Project.get(session, "paper")
         versions = await gather(
