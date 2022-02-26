@@ -32,7 +32,15 @@ def generate(package: str, sources: Sources) -> Aliases:
     def clean(version: Union[str, Version]) -> str:
         if isinstance(version, Version):
             version = str(version)
-        return package + "_" + version.replace("~", "").replace(".", "_")
+        return (
+            package
+            + "_"
+            + version.replace("~", "")
+            .replace(" Pre-Release ", "-pre")
+            .replace(".", "_")
+            .replace("-", "_")
+            .replace(" ", "_")
+        )
 
     return {clean(key): clean(value) for key, value in aliases.items()}
 
