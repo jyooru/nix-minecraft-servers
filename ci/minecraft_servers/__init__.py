@@ -20,7 +20,6 @@ logging.basicConfig(
     datefmt="[%X]",
     handlers=[RichHandler(markup=True, rich_tracebacks=True)],
 )
-log = logging.getLogger(__name__)
 
 
 packages = {package: globals()[package] for package in __all__}

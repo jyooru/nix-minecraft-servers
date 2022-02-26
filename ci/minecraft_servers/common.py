@@ -4,10 +4,8 @@ from typing import Dict, List, Union
 
 import aiohttp
 from aiohttp import ClientSession, TraceRequestEndParams, TraceRequestStartParams
-from rich.console import Console
 
 
-console = Console()
 log = getLogger(__name__)
 
 

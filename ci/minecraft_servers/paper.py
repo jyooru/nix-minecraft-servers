@@ -1,15 +1,11 @@
 from asyncio import gather
 from dataclasses import dataclass
-from logging import getLogger
 from typing import Dict, List
 
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
 from .common import Source, Sources, trace_configs
-
-
-log = getLogger(__name__)
 
 
 @dataclass
