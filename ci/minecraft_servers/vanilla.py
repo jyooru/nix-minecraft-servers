@@ -1,7 +1,8 @@
+from asyncio import gather
 from dataclasses import dataclass, field
 from datetime import datetime
 from logging import getLogger
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
@@ -43,8 +44,13 @@ class Version(DataClassJsonMixin):
 
     async def get_manifest(self, session: ClientSession) -> Any:
         """Return the version's manifest."""
-        async with session.get(self.url) as response:
-            return await response.json()
+
+        try:
+            self._manifest: Any
+        except AttributeError:
+            async with session.get(self.url) as response:
+                self._manifest = await response.json()
+        return self._manifest
 
     async def get_downloads(self, session: ClientSession) -> Dict[str, Download]:
         """
@@ -62,14 +68,16 @@ class Version(DataClassJsonMixin):
         manifest = await self.get_manifest(session)
         return manifest.get("javaVersion", {}).get("majorVersion", None)
 
-    async def get_server(self, session: ClientSession) -> Optional[Download]:
+    async def get_server(
+        self, session: ClientSession
+    ) -> Tuple[str, Optional[Download]]:
         """
-        If the version has a server download available, return the Download
-        object for the server download. If the version does not have a server
-        download avilable, return None.
+        Return this version's ID along with the Download object for this version's
+        server. If the version does not have a server download avilable, None is
+        returned instead of a Download object.
         """
         downloads = await self.get_downloads(session)
-        return downloads.get("server")
+        return (self.id, downloads.get("server"))
 
 
 async def get_versions(session: ClientSession) -> Dict[str, Version]:
@@ -89,16 +97,18 @@ async def generate() -> List[Dict[str, Any]]:
     """
     async with ClientSession(trace_configs=trace_configs) as session:
         versions = await get_versions(session)
-        servers = {v.id: await v.get_server(session) for v in versions.values()}
-
-        data = {
-            key: Download.schema().dump(value)
-            for key, value in servers.items()
-            if value is not None  # versions < 1.2 do not have a server
+        servers = await gather(
+            *[version.get_server(session) for version in versions.values()]
+        )
+        sources = {
+            server[0]: server[1].to_dict()
+            for server in servers
+            if server[1] is not None  # versions < 1.2 do not have a server
         }
-        for key, value in data.items():
+
+        for key, value in sources.items():
             del value["size"]
             value["version"] = versions[key].id
             value["javaVersion"] = await versions[key].get_java_version(session)
 
-    return [x for x in data.values()]
+    return list(sources.values())
