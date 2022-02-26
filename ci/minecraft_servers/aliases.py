@@ -6,7 +6,22 @@ from .common import Aliases, Sources
 
 
 def generate(package: str, sources: Sources) -> Aliases:
-    versions = [Version.coerce(source["version"]) for source in sources]
+    # releases that don't follow a versioning scheme and should not be aliased
+    ignore = [
+        "1.RV-Pre1",
+        "3D Shareware v1.34",
+    ]
+
+    versions = [
+        Version.coerce(source["version"])
+        for source in sources
+        if "." in str(source["version"])  # filter out snapshots
+        if source["version"] not in ignore
+    ]
+
+    for version in versions:
+        if NpmSpec(f"~{version.major}.{version.minor}") is None:
+            raise Exception(version)
 
     major_specs = {NpmSpec(f"~{version.major}") for version in versions}
     minor_specs = {NpmSpec(f"~{version.major}.{version.minor}") for version in versions}
@@ -17,7 +32,15 @@ def generate(package: str, sources: Sources) -> Aliases:
     def clean(version: Union[str, Version]) -> str:
         if isinstance(version, Version):
             version = str(version)
-        return package + "_" + version.replace("~", "").replace(".", "_")
+        return (
+            package
+            + "_"
+            + version.replace("~", "")
+            .replace(" Pre-Release ", "-pre")
+            .replace(".", "_")
+            .replace("-", "_")
+            .replace(" ", "_")
+        )
 
     return {clean(key): clean(value) for key, value in aliases.items()}
 

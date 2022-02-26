@@ -80,43 +80,6 @@ async def get_versions(session: ClientSession) -> Dict[str, Version]:
         return {version.id: version for version in versions}
 
 
-def get_major_release(version_id: str) -> str:
-    """
-    Return the major release for a version. The major release for 1.17 and
-    1.17.1 is 1.17.
-    """
-    if not len(version_id.split(".")) >= 2:
-        raise ValueError(f"version not in expected format: '{version_id}'")
-    return ".".join(version_id.split(".")[:2])
-
-
-def group_major_releases(releases: List[Version]) -> Dict[str, List[Version]]:
-    """
-    Return a dictionary containing each version grouped by each major release.
-    The key "1.17" contains a list with two Version objects, one for "1.17"
-    and another for "1.17.1".
-    """
-    groups: Dict[str, List[Version]] = {}
-    for release in releases:
-        major_release = get_major_release(release.id)
-        if major_release not in groups:
-            groups[major_release] = []
-        groups[major_release].append(release)
-    return groups
-
-
-def get_latest_major_releases(releases: List[Version]) -> Dict[str, Version]:
-    """
-    Return a dictionary containing the latest version for each major release.
-    The latest major release for 1.16 is 1.16.5, so the key "1.16" contains a
-    Version object for 1.16.5.
-    """
-    return {
-        major_release: sorted(releases, key=lambda x: x.id, reverse=True)[0]
-        for major_release, releases in group_major_releases(releases).items()
-    }
-
-
 async def generate() -> List[Dict[str, Any]]:
     """
     Return a dictionary containing the latest url, sha1 and version for each major
@@ -124,8 +87,7 @@ async def generate() -> List[Dict[str, Any]]:
     """
     async with ClientSession() as session:
         versions = await get_versions(session)
-        releases = filter(lambda version: version.type == "release", versions.values())
-        servers = {value.id: await value.get_server(session) for value in releases}
+        servers = {v.id: await v.get_server(session) for v in versions.values()}
 
         data = {
             key: Download.schema().dump(value)

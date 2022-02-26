@@ -10,7 +10,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 from rich.status import Status
 
 from . import aliases, packages, readme
-from .common import Aliases
+from .common import Aliases, Sources
 
 
 console = Console()
@@ -70,8 +70,14 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
         return parser.parse_args(args)
 
 
+def sort_sources(sources: Sources) -> Sources:
+    # makes git history nice if data returned from an API is in another order
+    sources.sort(key=lambda source: source["version"])
+    return sources
+
+
 async def fetch_package(package: str, output: str) -> Aliases:
-    sources = await packages[package].generate()
+    sources = sort_sources(await packages[package].generate())
     with open(output.format(package), "w") as file:
         json.dump(sources, file, indent=2, sort_keys=True)
         file.write("\n")

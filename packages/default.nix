@@ -3,8 +3,21 @@
 with lib;
 
 let
-  escapeVersion = replaceStrings [ "." ] [ "_" ];
-  unescapeVersion = replaceStrings [ "_" ] [ "." ];
+  cleanVersion = s: toLower
+    (replaceStrings
+      [
+        " Pre-Release "
+        "."
+        "-"
+        " "
+      ]
+      [
+        "-pre"
+        "_"
+        "_"
+        "_"
+      ]
+      s);
 
   fullVersion = version:
     if (length (splitVersion version)) >= 3
@@ -19,10 +32,14 @@ let
     (map
       (package:
         let
-          sources = importJSON (./. + "/${package}/sources.json");
+          sources = map
+            (source:
+              source // { version = cleanVersion (fullVersion source.version); }
+            )
+            (importJSON (./. + "/${package}/sources.json"));
           packages = listToAttrs (map
             (source: {
-              name = fullVersion source.version;
+              name = source.version;
               value = callPackage (./. + "/${package}") source;
             })
             sources
@@ -30,7 +47,7 @@ let
         in
         mapAttrs'
           (name: value: {
-            name = "${package}_${escapeVersion name}";
+            name = "${package}_${name}";
             inherit value;
           })
           packages)
