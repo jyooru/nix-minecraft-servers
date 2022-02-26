@@ -1,8 +1,27 @@
-from typing import List, Union
+from typing import Dict, List
 
 from semantic_version import NpmSpec, Version
 
 from .common import Aliases, Sources
+
+
+def replace(string: str) -> str:
+    return (
+        string.replace("~", "")
+        .replace(" Pre-Release ", "-pre")
+        .replace(".", "_")
+        .replace("-", "_")
+        .replace(" ", "_")
+    )
+
+
+def clean(package: str, aliases: Dict[str, Version]) -> Dict[str, str]:
+    result = {}
+    for key, value in aliases.items():
+        # if this alias is for the latest version then alias should just be package
+        alias = package if key == "" else f"{package}_{replace(key)}"
+        result[alias] = f"{package}_{replace(str(value))}"
+    return result
 
 
 def generate(package: str, sources: Sources) -> Aliases:
@@ -23,26 +42,14 @@ def generate(package: str, sources: Sources) -> Aliases:
         if NpmSpec(f"~{version.major}.{version.minor}") is None:
             raise Exception(version)
 
+    latest_spec = NpmSpec("")
     major_specs = {NpmSpec(f"~{version.major}") for version in versions}
     minor_specs = {NpmSpec(f"~{version.major}.{version.minor}") for version in versions}
-    specs = major_specs | minor_specs
+    specs = {latest_spec} | major_specs | minor_specs
 
     aliases = {spec.expression: spec.select(versions) for spec in specs}
 
-    def clean(version: Union[str, Version]) -> str:
-        if isinstance(version, Version):
-            version = str(version)
-        return (
-            package
-            + "_"
-            + version.replace("~", "")
-            .replace(" Pre-Release ", "-pre")
-            .replace(".", "_")
-            .replace("-", "_")
-            .replace(" ", "_")
-        )
-
-    return {clean(key): clean(value) for key, value in aliases.items()}
+    return clean(package, aliases)
 
 
 def dump(aliases: List[Aliases]) -> Aliases:
