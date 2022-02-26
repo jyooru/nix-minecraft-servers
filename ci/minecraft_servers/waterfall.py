@@ -3,7 +3,7 @@ from logging import getLogger
 
 from aiohttp import ClientSession
 
-from .common import Sources
+from .common import Sources, trace_configs
 from .paper import Project
 
 
@@ -11,7 +11,10 @@ log = getLogger(__name__)
 
 
 async def generate() -> Sources:
-    async with ClientSession("https://papermc.io") as session:
+    async with ClientSession(
+        "https://papermc.io",
+        trace_configs=trace_configs,
+    ) as session:
         project = await Project.get(session, "waterfall")
         versions = await gather(
             *[project.get_version(session, version) for version in project.versions]
