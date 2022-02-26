@@ -1,6 +1,6 @@
 from typing import List, Union
 
-from semantic_version import NpmSpec, Version  # type: ignore
+from semantic_version import NpmSpec, Version
 
 from .common import Aliases, Sources
 
