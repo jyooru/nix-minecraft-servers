@@ -6,7 +6,7 @@ from typing import Dict, List
 from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 
-from .common import Source, Sources
+from .common import Source, Sources, trace_configs
 
 
 log = getLogger(__name__)
@@ -73,7 +73,10 @@ class Project(DataClassJsonMixin):
 
 
 async def generate() -> Sources:
-    async with ClientSession("https://papermc.io") as session:
+    async with ClientSession(
+        "https://papermc.io",
+        trace_configs=trace_configs,
+    ) as session:
         project = await Project.get(session, "paper")
         versions = await gather(
             *[

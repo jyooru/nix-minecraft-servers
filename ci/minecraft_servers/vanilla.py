@@ -7,6 +7,8 @@ from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
+from .common import trace_configs
+
 
 log = getLogger(__name__)
 
@@ -85,7 +87,7 @@ async def generate() -> List[Dict[str, Any]]:
     Return a dictionary containing the latest url, sha1 and version for each major
     release.
     """
-    async with ClientSession() as session:
+    async with ClientSession(trace_configs=trace_configs) as session:
         versions = await get_versions(session)
         servers = {v.id: await v.get_server(session) for v in versions.values()}
 

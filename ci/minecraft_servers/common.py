@@ -1,6 +1,9 @@
 from logging import getLogger
+from types import SimpleNamespace
 from typing import Dict, List, Union
 
+import aiohttp
+from aiohttp import ClientSession, TraceRequestEndParams, TraceRequestStartParams
 from rich.console import Console
 
 
@@ -48,3 +51,25 @@ def get_latest_major_versions(versions: List[str]) -> Dict[str, str]:
         major_release: sorted(releases, reverse=True)[0]
         for major_release, releases in group_major_versions(versions).items()
     }
+
+
+async def on_request_start(
+    session: ClientSession,
+    context: SimpleNamespace,
+    params: TraceRequestStartParams,
+) -> None:
+    log.debug(f"-> {params.method} {params.url}")
+
+
+async def on_request_end(
+    session: ClientSession,
+    context: SimpleNamespace,
+    params: TraceRequestEndParams,
+) -> None:
+    log.debug(f"<- {params.method} {params.url} {params.response.status}")
+
+
+trace_config = aiohttp.TraceConfig()
+trace_config.on_request_start.append(on_request_start)
+trace_config.on_request_end.append(on_request_end)
+trace_configs = [trace_config]

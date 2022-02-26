@@ -11,7 +11,7 @@ from aiohttp import ClientSession
 from dataclasses_json import DataClassJsonMixin
 from platformdirs import user_cache_path
 
-from .common import Sources
+from .common import Sources, trace_configs
 
 
 log = getLogger(__name__)
@@ -112,7 +112,10 @@ class Project(DataClassJsonMixin):
 
 
 async def generate() -> Sources:
-    async with ClientSession("https://api.purpurmc.org") as session:
+    async with ClientSession(
+        "https://api.purpurmc.org",
+        trace_configs=trace_configs,
+    ) as session:
         project = await Project.get(session, "purpur")
         versions = await gather(
             *[project.get_version(session, version) for version in project.versions]
