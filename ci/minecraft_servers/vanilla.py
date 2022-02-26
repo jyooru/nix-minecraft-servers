@@ -45,8 +45,9 @@ class Version(DataClassJsonMixin):
     async def get_manifest(self, session: ClientSession) -> Any:
         """Return the version's manifest."""
 
+        self._manifest: Any
         try:
-            self._manifest: Any
+            self._manifest
         except AttributeError:
             async with session.get(self.url) as response:
                 self._manifest = await response.json()
