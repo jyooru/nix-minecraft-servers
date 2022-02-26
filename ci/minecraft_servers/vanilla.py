@@ -87,8 +87,7 @@ async def generate() -> List[Dict[str, Any]]:
     """
     async with ClientSession() as session:
         versions = await get_versions(session)
-        releases = filter(lambda version: version.type == "release", versions.values())
-        servers = {value.id: await value.get_server(session) for value in releases}
+        servers = {v.id: await v.get_server(session) for v in versions.values()}
 
         data = {
             key: Download.schema().dump(value)
