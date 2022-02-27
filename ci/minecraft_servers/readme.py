@@ -16,8 +16,8 @@ def get_packages() -> dict[str, dict[str, str]]:
     return {key.split(".")[2]: value for key, value in output.items()}
 
 
-def main() -> None:
-    with open("README.md") as file:
+def main(path: str) -> None:
+    with open(path) as file:
         old_readme = file.readlines()
     new_readme = []
     start = find_line(old_readme, "<!-- minecraft-servers start -->") + 2
@@ -45,11 +45,5 @@ def main() -> None:
     new_readme.append("</details>\n")
     new_readme += old_readme[end:]
 
-    with open("README.md", "w") as file:
+    with open(path, "w") as file:
         file.writelines(new_readme)
-
-    subprocess.check_call(["prettier", "-w", "README.md"])
-
-
-if __name__ == "__main__":
-    main()

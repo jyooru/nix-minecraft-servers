@@ -44,8 +44,9 @@ def parse_args(args: List[str] = []) -> argparse.Namespace:
     parser.add_argument(
         "-r",
         "--readme",
-        action="store_true",
-        help="enable readme update on completion",
+        type=str,
+        help="path to readme to update",
+        default=None,
     )
     parser.add_argument(
         "-p",
@@ -112,9 +113,9 @@ async def async_main(args: List[str] = []) -> None:
         with open(parsed_args.aliases, "w") as file:
             json.dump(aliases.dump(package_aliases), file, indent=2, sort_keys=True)
 
-    if parsed_args.readme:
+    if parsed_args.readme is not None:
         with Status("Updating README.md..."):
-            readme.main()
+            readme.main(parsed_args.readme)
 
 
 def main(*args: Any, **kwargs: Any) -> None:
