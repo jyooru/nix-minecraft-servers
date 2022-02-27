@@ -1,13 +1,9 @@
 from asyncio import gather
-from logging import getLogger
 
 from aiohttp import ClientSession
 
 from .common import Sources, trace_configs
 from .paper import Project
-
-
-log = getLogger(__name__)
 
 
 async def generate() -> Sources:

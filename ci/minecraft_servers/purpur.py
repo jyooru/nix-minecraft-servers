@@ -2,7 +2,6 @@ import json
 from asyncio import gather
 from dataclasses import dataclass
 from hashlib import sha256
-from logging import getLogger
 from pathlib import Path
 from typing import Dict, List, Union
 
@@ -12,9 +11,6 @@ from dataclasses_json import DataClassJsonMixin
 from platformdirs import user_cache_path
 
 from .common import Sources, trace_configs
-
-
-log = getLogger(__name__)
 
 
 # until papyrus v2

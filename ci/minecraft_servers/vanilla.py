@@ -1,7 +1,6 @@
 from asyncio import gather
 from dataclasses import dataclass, field
 from datetime import datetime
-from logging import getLogger
 from typing import Any, Dict, List, Optional, Tuple
 
 from aiohttp import ClientSession
@@ -9,9 +8,6 @@ from dataclasses_json import DataClassJsonMixin, LetterCase, config
 from marshmallow import fields
 
 from .common import trace_configs
-
-
-log = getLogger(__name__)
 
 
 @dataclass

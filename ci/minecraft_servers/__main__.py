@@ -5,16 +5,11 @@ from logging import getLogger
 from typing import Any, List
 
 from platformdirs import user_cache_dir
-from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 from rich.status import Status
 
 from . import aliases, packages, readme
 from .common import Aliases, Sources
-
-
-console = Console()
-log = getLogger(__name__)
 
 
 def parse_args(args: List[str] = []) -> argparse.Namespace:
