@@ -33,16 +33,6 @@ def main(path: str) -> None:
         for package, version in packages.items()
         if "_" not in package
     ]
-    new_readme.append("<details>\n")
-    new_readme.append("<summary><b>All versions available</b></summary>\n")
-    new_readme.append("<table>\n")
-    new_readme.append("<tr><th>Name</th><th>Version</th></tr>\n")
-    new_readme += [
-        f"<tr><td>{package}</td><td>{version}</td></tr>\n"
-        for package, version in packages.items()
-    ]
-    new_readme.append("</table>\n")
-    new_readme.append("</details>\n")
     new_readme += old_readme[end:]
 
     with open(path, "w") as file:
