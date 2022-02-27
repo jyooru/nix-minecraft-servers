@@ -1,0 +1,68 @@
+name: "update"
+
+on:
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  packages:
+    defaults:
+      run:
+        working-directory: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Set up Poetry
+        uses: Gr1N/setup-poetry@v7
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-root
+
+      - name: Set up Nix
+        uses: cachix/install-nix-action@v16
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Cache data
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/minecraft-servers
+          key: data
+      - name: Update packages
+        run: |
+          poetry run minecraft-servers \
+            --aliases "../packages/aliases.json" \
+            --output "../packages/{}/sources.json" \
+            --readme "../README.md" \
+            --verbose
+
+          nix run nixpkgs#nodePackages.prettier -- -w "../README.md"
+
+      - name: Create pull request
+        id: pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: "chore(packages): update"
+          branch: "chore/packages/update"
+          delete-branch: true
+          push-to-fork: jyoorunobotto/nix-minecraft-servers
+          title: "chore(packages): update"
+          body: Automated update by a [GitHub Actions run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+      - name: Enable auto merge
+        run: gh pr merge --auto --merge "${{ steps.pr.outputs.pull-request-url }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
