@@ -6,6 +6,7 @@ on:
 
 jobs:
   packages:
+    if: github.repository == 'jyooru/nix-minecraft-servers'
     defaults:
       run:
         working-directory: ci
