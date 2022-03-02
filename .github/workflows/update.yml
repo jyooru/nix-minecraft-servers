@@ -63,7 +63,6 @@ jobs:
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           branch: "chore/packages/update"
           delete-branch: true
-          push-to-fork: jyoorunobotto/nix-minecraft-servers
           title: "chore(packages): update"
           body: Automated update by a [GitHub Actions run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
       - name: Enable auto merge
