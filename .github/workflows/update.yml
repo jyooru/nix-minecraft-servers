@@ -59,6 +59,8 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           commit-message: "chore(packages): update"
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           branch: "chore/packages/update"
           delete-branch: true
           push-to-fork: jyoorunobotto/nix-minecraft-servers
