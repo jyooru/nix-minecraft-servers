@@ -14,11 +14,18 @@
         in
         with pkgs;
         rec {
+          defaultPackage = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
+
           devShell = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
 
-          overlay = (final: prev: { minecraftServers = packages; });
-          defaultPackage = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
-          packages = import ./packages { inherit (pkgs) callPackage lib; };
+          overlay = final: prev:
+            {
+              minecraftServers = import ./packages {
+                inherit (final) callPackage lib;
+              };
+            };
+
+          packages = (overlay pkgs pkgs).minecraftServers;
         }
       );
 }
