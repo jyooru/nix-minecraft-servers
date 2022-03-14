@@ -20,7 +20,7 @@ black = "^22.1.0"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
 mypy = "^0.941"
-pytest = "^7.0.1"
+pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
 types-requests = "^2.27.10"
 
