@@ -42,9 +42,9 @@
     "version": "1.17"
   },
   {
-    "build": 481,
-    "sha256": "0ec6adc499b24d5000f7ab1cfea3dc662f423bb168214b9523d20326207dfe6a",
-    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.18/builds/481/downloads/waterfall-1.18-481.jar",
+    "build": 482,
+    "sha256": "a43fd635418f1af176faf05ab6ed4d7ba67ad5a5943f84b249e56c16c1dff905",
+    "url": "https://papermc.io/api/v2/projects/waterfall/versions/1.18/builds/482/downloads/waterfall-1.18-482.jar",
     "version": "1.18"
   }
 ]
