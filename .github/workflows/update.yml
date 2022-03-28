@@ -55,7 +55,7 @@ jobs:
 
       - name: Create pull request
         id: pr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.PAT }}
           commit-message: "chore(packages): update"
