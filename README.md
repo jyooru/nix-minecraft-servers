@@ -69,7 +69,7 @@ The latest version of each package is shown in the table below. To see all versi
 
 | Name      | Latest Version |
 | --------- | -------------- |
-| paper     | 1_18_2-267     |
+| paper     | 1_18_2-268     |
 | purpur    | 1_18_2-1599    |
 | vanilla   | 1_18_2         |
 | velocity  | 3_1_1-102      |
