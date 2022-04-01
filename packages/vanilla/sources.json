@@ -3330,6 +3330,12 @@
     "version": "22w12a"
   },
   {
+    "javaVersion": 17,
+    "sha1": "7c8afca77bb9a73d31cdc70f2f68b4119d581455",
+    "url": "https://launcher.mojang.com/v1/objects/7c8afca77bb9a73d31cdc70f2f68b4119d581455/server.jar",
+    "version": "22w13a"
+  },
+  {
     "javaVersion": 8,
     "sha1": "ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f",
     "url": "https://launcher.mojang.com/v1/objects/ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f/server.jar",
