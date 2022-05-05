@@ -3372,6 +3372,12 @@
     "version": "22w17a"
   },
   {
+    "javaVersion": 17,
+    "sha1": "d3259a8939a724c78ebbb995dfc31c1c364464e3",
+    "url": "https://launcher.mojang.com/v1/objects/d3259a8939a724c78ebbb995dfc31c1c364464e3/server.jar",
+    "version": "22w18a"
+  },
+  {
     "javaVersion": 8,
     "sha1": "ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f",
     "url": "https://launcher.mojang.com/v1/objects/ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f/server.jar",
