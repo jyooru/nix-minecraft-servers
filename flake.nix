@@ -6,7 +6,7 @@
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
   };
 
-  outputs = { self, nixpkgs, utils, ... } @ inputs:
+  outputs = { self, nixpkgs, utils } @ inputs:
     utils.lib.mkFlake {
       inherit self inputs;
 
