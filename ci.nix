@@ -1,14 +1,12 @@
-let
-  inherit (builtins) currentSystem getFlake;
-  inherit (flake) inputs;
-  inherit (pkgs) lib;
-  inherit (lib) recurseIntoAttrs;
+with builtins;
 
+let
   flake = getFlake (toString ./.);
-  pkgs = import inputs.nixpkgs { inherit system; };
-  system = currentSystem;
 in
+
+with flake.inputs.nixpkgs.lib;
+
 {
-  defaultPackage = flake.defaultPackage.${system};
-  packages = recurseIntoAttrs flake.packages.${system};
+  devShells = recurseIntoAttrs flake.devShells.${currentSystem};
+  packages = recurseIntoAttrs flake.packages.${currentSystem};
 }
