@@ -10,23 +10,30 @@
     utils.lib.mkFlake {
       inherit self inputs;
 
-      channelsConfig.allowUnfree = true;
-
       outputsBuilder = channels:
         let pkgs = channels.nixpkgs; in
         with pkgs;
         {
-          defaultPackage = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
+          devShells = rec {
+            default = minecraft-servers;
+            minecraft-servers = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
+          };
 
-          devShell = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
-
-          packages = (self.overlay pkgs pkgs).minecraftServers;
+          packages = (self.overlays.default pkgs pkgs).minecraftServers // rec {
+            default = minecraft-servers;
+            minecraft-servers = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
+          };
         };
 
-      overlay = final: prev: {
-        minecraftServers = import ./packages {
-          inherit (final) callPackage lib;
+      overlays = rec {
+        default = nix-minecraft-servers;
+        nix-minecraft-servers = final: prev: {
+          minecraftServers = import ./packages {
+            inherit (final) callPackage lib;
+          };
         };
       };
+
+      overlay = nixpkgs.lib.warn "the nix-minecraft-servers overlay has been renamed from 'overlay' to 'overlays.default'" self.overlays.default;
     };
 }

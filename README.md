@@ -49,7 +49,7 @@ The overlay overrides nixpkgs' `minecraftServers` attribute with this flake's `p
 # configuration.nix
 { inputs, pkgs }:
 {
-  nixpkgs.overlays = [ inputs.minecraft-servers.overlay ];
+  nixpkgs.overlays = [ inputs.minecraft-servers.overlays.default ];
 
   services.minecraft-server = {
     enable = true;

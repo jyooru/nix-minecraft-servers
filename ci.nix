@@ -1,14 +1,22 @@
-let
-  inherit (builtins) currentSystem getFlake;
-  inherit (flake) inputs;
-  inherit (pkgs) lib;
-  inherit (lib) recurseIntoAttrs;
+with builtins;
 
+let
   flake = getFlake (toString ./.);
-  pkgs = import inputs.nixpkgs { inherit system; };
-  system = currentSystem;
+  pkgs = import flake.inputs.nixpkgs {
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [
+        "openjdk-headless-16+36"
+      ];
+    };
+  };
 in
+
+with flake.inputs.nixpkgs.lib;
+
 {
-  defaultPackage = flake.defaultPackage.${system};
-  packages = recurseIntoAttrs flake.packages.${system};
+  packages = recurseIntoAttrs
+    ((flake.overlays.default pkgs pkgs).minecraftServers // rec {
+      inherit (flake.packages.${currentSystem}) minecraft-servers;
+    });
 }
