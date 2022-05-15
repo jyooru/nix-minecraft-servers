@@ -10,8 +10,6 @@
     utils.lib.mkFlake {
       inherit self inputs;
 
-      channelsConfig.allowUnfree = true;
-
       outputsBuilder = channels:
         let pkgs = channels.nixpkgs; in
         with pkgs;
