@@ -67,13 +67,15 @@ The latest version of each package is shown in the table below. To see all versi
 
 <!-- minecraft-servers start -->
 
-| Name      | Latest Version |
-| --------- | -------------- |
-| paper     | 1_18_2-333     |
-| purpur    | 1_18_2-1623    |
-| vanilla   | 1_18_2         |
-| velocity  | 3_1_1-102      |
-| waterfall | 1_18_0-486     |
+| Name              | Latest Version |
+| ----------------- | -------------- |
+| default           | 0.1.0          |
+| minecraft-servers | 0.1.0          |
+| paper             | 1_18_2-333     |
+| purpur            | 1_18_2-1623    |
+| vanilla           | 1_18_2         |
+| velocity          | 3_1_1-102      |
+| waterfall         | 1_18_0-486     |
 
 <!-- minecraft-servers end -->
 
