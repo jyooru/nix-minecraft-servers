@@ -71,7 +71,7 @@ The latest version of each package is shown in the table below. To see all versi
 | ----------------- | -------------- |
 | default           | 0.1.0          |
 | minecraft-servers | 0.1.0          |
-| paper             | 1_18_2-335     |
+| paper             | 1_18_2-336     |
 | purpur            | 1_18_2-1623    |
 | vanilla           | 1_18_2         |
 | velocity          | 3_1_1-102      |
