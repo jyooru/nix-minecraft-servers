@@ -24,6 +24,8 @@ def main(path: str) -> None:
     end = find_line(old_readme[start:], "<!-- minecraft-servers end -->") + start - 1
 
     packages = {key: value["version"] for key, value in get_packages().items()}
+    for key in ["default", "minecraft-servers"]:
+        del packages[key]
 
     new_readme += old_readme[:start]
     new_readme.append("| Name |Latest Version |\n")
