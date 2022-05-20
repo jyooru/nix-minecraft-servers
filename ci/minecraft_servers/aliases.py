@@ -18,6 +18,9 @@ def replace(string: str) -> str:
 def clean(package: str, aliases: Dict[str, Version]) -> Dict[str, str]:
     result = {}
     for key, value in aliases.items():
+        if value is None:
+            continue
+
         # if this alias is for the latest version then alias should just be package
         alias = package if key == "" else f"{package}_{replace(key)}"
         result[alias] = f"{package}_{replace(str(value))}"
