@@ -22,7 +22,7 @@ isort = "^5.10.1"
 mypy = "^0.950"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
-types-requests = "^2.27.19"
+types-requests = "^2.27.27"
 
 [tool.poetry.scripts]
 minecraft-servers = "minecraft_servers.__main__:main"
