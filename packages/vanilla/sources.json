@@ -858,6 +858,12 @@
     "version": "1.19-pre2"
   },
   {
+    "javaVersion": 17,
+    "sha1": "0702387c3519cc23a5184893275d00c05abf056d",
+    "url": "https://launcher.mojang.com/v1/objects/0702387c3519cc23a5184893275d00c05abf056d/server.jar",
+    "version": "1.19-pre3"
+  },
+  {
     "javaVersion": 8,
     "sha1": "d8321edc9470e56b8ad5c67bbd16beba25843336",
     "url": "https://launcher.mojang.com/v1/objects/d8321edc9470e56b8ad5c67bbd16beba25843336/server.jar",
