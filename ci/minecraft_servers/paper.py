@@ -82,7 +82,11 @@ async def generate() -> Sources:
             ]
         )
         builds = await gather(
-            *[version.get_build(session, max(version.builds)) for version in versions]
+            *[
+                version.get_build(session, max(version.builds))
+                for version in versions
+                if len(version.builds) > 0
+            ]
         )
 
     return [build.output_for_nix() for build in builds]

@@ -19,8 +19,8 @@
   "purpur_1_16": "purpur_1_16_5",
   "purpur_1_17": "purpur_1_17_1",
   "purpur_1_18": "purpur_1_18_2",
-  "vanilla": "vanilla_1_18_2",
-  "vanilla_1": "vanilla_1_18_2",
+  "vanilla": "vanilla_1_19_0",
+  "vanilla_1": "vanilla_1_19_0",
   "vanilla_1_10": "vanilla_1_10_2",
   "vanilla_1_11": "vanilla_1_11_2",
   "vanilla_1_12": "vanilla_1_12_2",
@@ -30,6 +30,7 @@
   "vanilla_1_16": "vanilla_1_16_5",
   "vanilla_1_17": "vanilla_1_17_1",
   "vanilla_1_18": "vanilla_1_18_2",
+  "vanilla_1_19": "vanilla_1_19_0",
   "vanilla_1_2": "vanilla_1_2_5",
   "vanilla_1_3": "vanilla_1_3_2",
   "vanilla_1_4": "vanilla_1_4_7",
@@ -44,8 +45,8 @@
   "velocity_1_1": "velocity_1_1_9",
   "velocity_3": "velocity_3_1_1",
   "velocity_3_1": "velocity_3_1_1",
-  "waterfall": "waterfall_1_18_0",
-  "waterfall_1": "waterfall_1_18_0",
+  "waterfall": "waterfall_1_19_0",
+  "waterfall_1": "waterfall_1_19_0",
   "waterfall_1_11": "waterfall_1_11_0",
   "waterfall_1_12": "waterfall_1_12_0",
   "waterfall_1_13": "waterfall_1_13_0",
@@ -53,5 +54,6 @@
   "waterfall_1_15": "waterfall_1_15_0",
   "waterfall_1_16": "waterfall_1_16_0",
   "waterfall_1_17": "waterfall_1_17_0",
-  "waterfall_1_18": "waterfall_1_18_0"
+  "waterfall_1_18": "waterfall_1_18_0",
+  "waterfall_1_19": "waterfall_1_19_0"
 }
