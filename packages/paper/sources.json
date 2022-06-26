@@ -156,9 +156,9 @@
     "version": "1.18.2"
   },
   {
-    "build": 36,
-    "sha256": "429841d5e011fb3a7bc3eba43a453c2546106fb0dba945116c6d563b02d3dba0",
-    "url": "https://papermc.io/api/v2/projects/paper/versions/1.19/builds/36/downloads/paper-1.19-36.jar",
+    "build": 39,
+    "sha256": "12c9e108042895d253ade7f69af035e8c339f93a283e352718d9a06b4865240e",
+    "url": "https://papermc.io/api/v2/projects/paper/versions/1.19/builds/39/downloads/paper-1.19-39.jar",
     "version": "1.19"
   },
   {
