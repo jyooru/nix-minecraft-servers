@@ -1,8 +1,8 @@
-{ lib, stdenv, fetchurl, bash, jre, version, build, url, sha256 }:
+{ lib, stdenvNoCC, fetchurl, bash, jre, version, build, url, sha256 }:
 let
   jar = fetchurl { inherit url sha256; };
 in
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   pname = "papermc";
   version = "${version}-${toString build}";
 
