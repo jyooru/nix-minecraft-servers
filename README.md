@@ -69,8 +69,8 @@ The latest version of each package is shown in the table below. To see all versi
 
 | Name      | Latest Version |
 | --------- | -------------- |
-| paper     | 1_19_0-40      |
-| purpur    | 1_19_0-1685    |
+| paper     | 1_19_0-41      |
+| purpur    | 1_19_0-1689    |
 | vanilla   | 1_19_0         |
 | velocity  | 3_1_1-102      |
 | waterfall | 1_19_0-497     |
