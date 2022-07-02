@@ -1,10 +1,10 @@
-{ lib, stdenv, fetchurl, nixosTests, javaPackages, version, url, sha1, javaVersion }:
+{ lib, stdenvNoCC, fetchurl, nixosTests, javaPackages, version, url, sha1, javaVersion }:
 let
   getJavaVersion = v: (builtins.getAttr "openjdk${toString v}" javaPackages.compiler).headless;
   # versions <= 1.6 will default to 8
   jre_headless = getJavaVersion (if javaVersion == null then 8 else javaVersion);
 in
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   pname = "minecraft-server";
   inherit version;
 

@@ -1,5 +1,5 @@
-{ lib, stdenv, fetchurl, nixosTests, jre_headless, version, build, url, sha256 }:
-stdenv.mkDerivation {
+{ lib, stdenvNoCC, fetchurl, nixosTests, jre_headless, version, build, url, sha256 }:
+stdenvNoCC.mkDerivation {
   pname = "purpur";
   version = "${version}-${toString build}";
 
