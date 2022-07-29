@@ -106,5 +106,11 @@
     "sha256": "f943dada19ecb6865d717c371e6efbbee15f57c7ceee785ee0687c99c0dd9113",
     "url": "https://api.purpurmc.org/v2/purpur/1.19/1735/download",
     "version": "1.19"
+  },
+  {
+    "build": 1739,
+    "sha256": "0198dbb94adea451252f3f4d13e053d69abcba08482f1ffd083bc6e525cf8610",
+    "url": "https://api.purpurmc.org/v2/purpur/1.19.1/1739/download",
+    "version": "1.19.1"
   }
 ]
