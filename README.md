@@ -69,11 +69,11 @@ The latest version of each package is shown in the table below. To see all versi
 
 | Name      | Latest Version |
 | --------- | -------------- |
-| paper     | 1_19_1-85      |
-| purpur    | 1_19_0-1735    |
+| paper     | 1_19_1-86      |
+| purpur    | 1_19_1-1739    |
 | vanilla   | 1_19_1         |
 | velocity  | 3_1_1-102      |
-| waterfall | 1_19_0-499     |
+| waterfall | 1_19_0-500     |
 
 <!-- minecraft-servers end -->
 
