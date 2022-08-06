@@ -108,9 +108,15 @@
     "version": "1.19"
   },
   {
-    "build": 1749,
-    "sha256": "f312350e1e202996fc0b5239c45c6df087a7a8da80925e3209de4bc7b6e6990e",
-    "url": "https://api.purpurmc.org/v2/purpur/1.19.1/1749/download",
+    "build": 1751,
+    "sha256": "2b22f4cd3f7e097250b497de77c5e81d38181e0a3e69ecc4607b9a235beab355",
+    "url": "https://api.purpurmc.org/v2/purpur/1.19.1/1751/download",
     "version": "1.19.1"
+  },
+  {
+    "build": 1752,
+    "sha256": "637e5daa7a682357c9710c4c8f3d0fe1344fae07efedd1bf26b9cc5dd5f9dc23",
+    "url": "https://api.purpurmc.org/v2/purpur/1.19.2/1752/download",
+    "version": "1.19.2"
   }
 ]

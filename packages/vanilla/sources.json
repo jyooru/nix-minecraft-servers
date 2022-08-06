@@ -955,9 +955,21 @@
   },
   {
     "javaVersion": 17,
+    "sha1": "f69c284232d7c7580bd89a5a4931c3581eae1378",
+    "url": "https://piston-data.mojang.com/v1/objects/f69c284232d7c7580bd89a5a4931c3581eae1378/server.jar",
+    "version": "1.19.2"
+  },
+  {
+    "javaVersion": 17,
     "sha1": "ba8a776dc31a6093a07d3f4fbad1a8d680f8faf3",
     "url": "https://piston-data.mojang.com/v1/objects/ba8a776dc31a6093a07d3f4fbad1a8d680f8faf3/server.jar",
     "version": "1.19.2-rc1"
+  },
+  {
+    "javaVersion": 17,
+    "sha1": "93649d39350077f998296138964e4591d4571140",
+    "url": "https://piston-data.mojang.com/v1/objects/93649d39350077f998296138964e4591d4571140/server.jar",
+    "version": "1.19.2-rc2"
   },
   {
     "javaVersion": 8,
