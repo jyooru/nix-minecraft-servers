@@ -73,7 +73,7 @@ The latest version of each package is shown in the table below. To see all versi
 | purpur    | 1_19_2-1762    |
 | vanilla   | 1_19_2         |
 | velocity  | 3_1_1-102      |
-| waterfall | 1_19_0-501     |
+| waterfall | 1_19_0-502     |
 
 <!-- minecraft-servers end -->
 
