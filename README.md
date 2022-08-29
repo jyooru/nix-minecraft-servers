@@ -70,7 +70,7 @@ The latest version of each package is shown in the table below. To see all versi
 | Name      | Latest Version |
 | --------- | -------------- |
 | paper     | 1_19_2-134     |
-| purpur    | 1_19_2-1768    |
+| purpur    | 1_19_2-1769    |
 | vanilla   | 1_19_2         |
 | velocity  | 3_1_1-102      |
 | waterfall | 1_19_0-503     |
