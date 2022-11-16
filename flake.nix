@@ -15,7 +15,7 @@
         with pkgs;
         {
           packages = (self.overlays.default pkgs pkgs).minecraftServers // rec {
-            default = ci;
+            default = minecraft-servers;
             minecraft-servers = callPackage ./ci { };
           };
         };
