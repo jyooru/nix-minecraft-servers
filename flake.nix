@@ -14,14 +14,9 @@
         let pkgs = channels.nixpkgs; in
         with pkgs;
         {
-          devShells = rec {
-            default = minecraft-servers;
-            minecraft-servers = (poetry2nix.mkPoetryEnv { projectDir = ./ci; }).env;
-          };
-
           packages = (self.overlays.default pkgs pkgs).minecraftServers // rec {
-            default = minecraft-servers;
-            minecraft-servers = poetry2nix.mkPoetryApplication { projectDir = ./ci; };
+            default = ci;
+            minecraft-servers = callPackage ./ci { };
           };
         };
 
