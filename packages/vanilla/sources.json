@@ -3534,6 +3534,12 @@
     "version": "22w44a"
   },
   {
+    "javaVersion": 17,
+    "sha1": "d98f05500b14a8884b85e71be9fa1ef0d261029a",
+    "url": "https://piston-data.mojang.com/v1/objects/d98f05500b14a8884b85e71be9fa1ef0d261029a/server.jar",
+    "version": "22w45a"
+  },
+  {
     "javaVersion": 8,
     "sha1": "ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f",
     "url": "https://launcher.mojang.com/v1/objects/ffd306fc2aaa884755c5a6bf9fbd87aed26dd78f/server.jar",
