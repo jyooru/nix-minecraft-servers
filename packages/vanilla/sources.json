@@ -984,6 +984,12 @@
     "version": "1.19.3-pre2"
   },
   {
+    "javaVersion": 17,
+    "sha1": "323175facb90c05b07dff84b4cff39fd9cab138a",
+    "url": "https://piston-data.mojang.com/v1/objects/323175facb90c05b07dff84b4cff39fd9cab138a/server.jar",
+    "version": "1.19.3-pre3"
+  },
+  {
     "javaVersion": 8,
     "sha1": "d8321edc9470e56b8ad5c67bbd16beba25843336",
     "url": "https://launcher.mojang.com/v1/objects/d8321edc9470e56b8ad5c67bbd16beba25843336/server.jar",
