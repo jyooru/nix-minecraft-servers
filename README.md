@@ -2,6 +2,10 @@
 
 This project contains all Minecraft server versions packaged for Nix.
 
+> **Note**
+> 
+> This project is no longer maintained. Please see [Infinidoge's nix-minecraft](https://github.com/Infinidoge/nix-minecraft).
+
 # Usage
 
 All packages are available through this flake's package set (`minecraft-servers.packages`) and overlay (`minecraft-servers.overlay`). To use them, add this repository to your flake inputs:
